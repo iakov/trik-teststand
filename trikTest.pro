@@ -35,8 +35,10 @@ MOC_DIR = .build/$$CONFIGURATION/.moc
 
 SOURCES += \
 	main.cpp \
-	trikTestApplication.cpp
+	trikTestApplication.cpp \
+    testLoader.cpp
 
 HEADERS  += \
 	trikTestApplication.h \
-	testInterface.h
+	testInterface.h \
+    testLoader.h
