@@ -38,4 +38,5 @@ SOURCES += \
 	trikTestApplication.cpp
 
 HEADERS  += \
-	trikTestApplication.h
+	trikTestApplication.h \
+	testInterface.h

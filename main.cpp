@@ -14,6 +14,8 @@
 
 #include "trikTestApplication.h"
 
+using namespace trikTest;
+
 int main(int argc, char *argv[])
 {
 	TrikTestApplication a(argc, argv);

@@ -14,22 +14,31 @@
 
 #pragma once
 
-#include <QtGui/QApplication>
-#include <QtCore/QMap>
+#include <QtCore/QObject>
+#include <QtCore/QStringList>
+#include <QtCore/QtPlugin>
+
+#include <trikControl/brick.h>
 
 namespace trikTest
 {
 
-class TrikTestApplication : public QApplication
+class TestInterface : public QObject
 {
 	Q_OBJECT
 
 public:
-	TrikTestApplication(int argc, char **argv);
-	bool notify(QObject *receiver, QEvent *event);
+	virtual ~TestInterface() {}
 
-private:
-	QMap<int, int> keysConversions;
+	enum Result
+	{
+		success,
+		fail
+	};
+
+	virtual Result run(trikControl::Brick &brick, QStringList &log) = 0;
 };
 
 }
+
+Q_DECLARE_INTERFACE(trikTest::TestInterface, "trikTest.TestInterface")
