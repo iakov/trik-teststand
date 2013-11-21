@@ -18,8 +18,8 @@
 
 using namespace trikTest;
 
-TrikTestApplication::TrikTestApplication(int argc, char **argv) :
-	QApplication(argc, argv)
+TrikTestApplication::TrikTestApplication(int argc, char **argv)
+	: QApplication(argc, argv)
 {
 	keysConversions[Qt::Key_F2] = Qt::Key_Meta;
 	keysConversions[Qt::Key_F3] = Qt::Key_Left;
