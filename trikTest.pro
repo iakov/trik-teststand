@@ -14,7 +14,7 @@
 
 TEMPLATE = app
 
-QT += core gui
+QT += core gui xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -33,12 +33,17 @@ DESTDIR = bin/$$CONFIGURATION
 OBJECTS_DIR = .build/$$CONFIGURATION/.obj
 MOC_DIR = .build/$$CONFIGURATION/.moc
 
+QMAKE_LIBS += -ltrikControl
+QMAKE_LIBDIR += /home/roman/lib
+
 SOURCES += \
 	main.cpp \
 	trikTestApplication.cpp \
-    testLoader.cpp
+	configurer.cpp \
+	launcher.cpp
 
 HEADERS  += \
 	trikTestApplication.h \
 	testInterface.h \
-    testLoader.h
+	configurer.h \
+	launcher.h

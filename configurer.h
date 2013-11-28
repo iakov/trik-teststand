@@ -15,21 +15,25 @@
 #pragma once
 
 #include <QtCore/QObject>
-#include <QtCore/QStringList>
+#include <QtCore/QMap>
+#include <QtCore/QString>
 
 #include "testInterface.h"
 
 namespace trikTest
 {
 
-class TestLoader : public QObject
+class Configurer : public QObject
 {
 	Q_OBJECT
 
 public:
-	TestLoader();
-	QStringList testsList();
-	TestInterface test(const QString &name);
+	Configurer();
+
+	QMap<QString, QString> files();
+
+private:
+	QMap<QString, QString> mFiles;
 };
 
 }

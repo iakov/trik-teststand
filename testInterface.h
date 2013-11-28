@@ -32,8 +32,8 @@ public:
 
 	enum Result
 	{
-		success,
-		fail
+		success
+		, fail
 	};
 
 	virtual Result run(trikControl::Brick &brick, QStringList &log) = 0;
