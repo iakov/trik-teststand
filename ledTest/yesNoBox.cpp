@@ -56,7 +56,7 @@ void YesNoBox::keyPressEvent(QKeyEvent *event)
 			mEventLoop.exit(0);
 			break;
 		}
-		case Qt::Key_Menu:
+		case Qt::Key_Meta:
 		{
 			mEventLoop.exit(-1);
 			break;

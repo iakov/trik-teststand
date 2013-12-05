@@ -47,6 +47,7 @@ Launcher::Launcher()
 	}
 
 	mConsole.setSelectionBehavior(QAbstractItemView::SelectRows);
+	mConsole.setSelectionMode(QAbstractItemView::SingleSelection);
 
 	mMainLayout.addLayout(&mTopLayout);
 	mMainLayout.addWidget(&mConsole);
@@ -92,7 +93,7 @@ void Launcher::keyPressEvent(QKeyEvent *event)
 					//show log
 					break;
 				}
-				case Qt::Key_Menu:
+				case Qt::Key_Meta:
 				{
 					setState(inProcess);
 					performTest(mConsole.item(mConsole.currentRow(), 0)->text());

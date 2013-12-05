@@ -39,7 +39,6 @@ class Launcher : public QWidget
 
 public:
 	Launcher();
-	void startTesting();
 
 protected:
 	void keyPressEvent(QKeyEvent *event);
@@ -55,6 +54,7 @@ private:
 	QLabel mTopButtonsLabels[3], mBottomButtonsLabels[3];
 	QTableWidget mConsole;
 
+	void startTesting();
 	void performTest(QString const &name);
 
 	enum State
