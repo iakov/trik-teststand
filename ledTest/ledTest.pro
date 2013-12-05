@@ -12,15 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#QT += core gui
+TARGET = $$qtLibraryTarget(ledTest)
+TEMPLATE = lib
 CONFIG += plugin
 INCLUDEPATH += ..
-TARGET = $$qtLibraryTarget(buttonsTest)
-TEMPLATE = lib
 
 CONFIG(debug, debug | release) {
-	CONFIGURATION = debu
-	CONFIGURATION_SUFFIX = d
+	CONFIGURATION = debug
 } else {
 	CONFIGURATION = release
 }
@@ -30,11 +28,12 @@ DESTDIR=../bin/$$CONFIGURATION
 OBJECTS_DIR = .build/$$CONFIGURATION/.obj
 MOC_DIR = .build/$$CONFIGURATION/.moc
 
-DEFINES += BUTTONSTEST_LIBRARY
+DEFINES += LEDTEST_LIBRARY
 
 SOURCES += \
-	buttonsTest.cpp
+	ledTest.cpp \
+	yesNoBox.cpp
 
 HEADERS += \
-	buttonsTest.h
-
+	ledTest.h \
+	yesNoBox.h
