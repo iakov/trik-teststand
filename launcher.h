@@ -21,7 +21,7 @@
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QLabel>
-#include <QtGui/QListView>
+#include <QtGui/QTableWidget>
 #include <QtGui/QStandardItemModel>
 #include <QtCore/QModelIndex>
 #include <QtGui/QKeyEvent>
@@ -52,15 +52,15 @@ private:
 
 	QVBoxLayout mMainLayout;
 	QHBoxLayout mTopLayout, mBottomLayout;
-	QLabel mTopButtonsLabels[2], mBottomButtonsLabels[2];
-	QStandardItemModel mListModel;
-	QListView mListView;
+	QLabel mTopButtonsLabels[3], mBottomButtonsLabels[3];
+	QTableWidget mConsole;
 
 	void performTest(QString const &name);
 
 	enum State
 	{
-		inProcess
+		notStarted
+		, inProcess
 		, finished
 	};
 

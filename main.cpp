@@ -12,13 +12,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. */
 
+#include <QtGui/QFont>
+#include <QtCore/QTextCodec>
+
 #include "trikTestApplication.h"
+#include "launcher.h"
 
 using namespace trikTest;
 
 int main(int argc, char *argv[])
 {
 	TrikTestApplication a(argc, argv);
+
+	QFont newFont(a.font());
+	newFont.setPixelSize(12);
+	a.setFont(newFont);
+
+	QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
+
+	Launcher launcher;
+	launcher.show();
 
 	return a.exec();
 }

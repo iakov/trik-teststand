@@ -16,6 +16,7 @@
 
 #include <QtCore/QPluginLoader>
 #include <QtCore/QList>
+#include <QtCore/QDebug>
 
 #include "testInterface.h"
 #include "trikTestApplication.h"
@@ -24,11 +25,10 @@ using namespace trikTest;
 
 Launcher::Launcher()
 	: mBrick(*TrikTestApplication::instance()->thread())
-	, mListModel(0, 2)
-	, mState(inProcess)
+	, mConsole(0, 2)
+	, mState(notStarted)
 {
-	mTopButtonsLabels[1].setText(tr("Вверх"));
-	mBottomButtonsLabels[1].setText(tr("Вниз"));
+	setWindowState(Qt::WindowFullScreen);
 
 	mTopButtonsLabels[0].setAlignment(Qt::AlignTop | Qt::AlignLeft);
 	mTopButtonsLabels[1].setAlignment(Qt::AlignTop | Qt::AlignHCenter);
@@ -37,17 +37,19 @@ Launcher::Launcher()
 	mBottomButtonsLabels[1].setAlignment(Qt::AlignBottom | Qt::AlignHCenter);
 	mBottomButtonsLabels[2].setAlignment(Qt::AlignBottom | Qt::AlignRight);
 
+	mTopButtonsLabels[1].setText(tr("Вверх"));
+	mBottomButtonsLabels[1].setText(tr("Вниз"));
+
 	for (int i = 0; i < 3; ++i)
 	{
 		mTopLayout.addWidget(&mTopButtonsLabels[i]);
 		mBottomLayout.addWidget(&mBottomButtonsLabels[i]);
 	}
 
-	mListView.setModel(&mListModel);
-	mListView.setSelectionBehavior(QAbstractItemView::SelectRows);
+	mConsole.setSelectionBehavior(QAbstractItemView::SelectRows);
 
 	mMainLayout.addLayout(&mTopLayout);
-	mMainLayout.addWidget(&mListView);
+	mMainLayout.addWidget(&mConsole);
 	mMainLayout.addLayout(&mBottomLayout);
 
 	setLayout(&mMainLayout);
@@ -70,6 +72,12 @@ void Launcher::keyPressEvent(QKeyEvent *event)
 {
 	switch (mState)
 	{
+		case notStarted:
+		{
+			setState(inProcess);
+			startTesting();
+			break;
+		}
 		case inProcess:
 		{
 			QWidget::keyPressEvent(event);
@@ -87,11 +95,17 @@ void Launcher::keyPressEvent(QKeyEvent *event)
 				case Qt::Key_Menu:
 				{
 					setState(inProcess);
-					performTest(mListModel.item(mListView.currentIndex().row(), 0)->text());
+					performTest(mConsole.item(mConsole.currentRow(), 0)->text());
 					setState(finished);
 					break;
 				}
+				default:
+				{
+					QWidget::keyPressEvent(event);
+					break;
+				}
 			}
+			break;
 		}
 	}
 }
@@ -105,6 +119,7 @@ void Launcher::performTest(QString const &name)
 	if (testLoader.instance() == NULL)
 	{
 		setTestState(name, testFail);
+		qDebug() << "Cannot load the test: " << testLoader.errorString();
 		mLogs[name].append(tr("Не удалось подключить тест"));
 		mLogs[name].append(testLoader.errorString());
 	}
@@ -114,6 +129,7 @@ void Launcher::performTest(QString const &name)
 		if (test == NULL)
 		{
 			setTestState(name, testFail);
+			qDebug() << "Cannot perform type casting";
 			mLogs[name].append(tr("Не удалось подключить тест"));
 			mLogs[name].append(tr("Ошибка приведения типов"));
 		}
@@ -151,28 +167,28 @@ void Launcher::setTestState(QString const &name, Launcher::TestState state)
 {
 	if (!mRows.contains(name))
 	{
-		QList<QStandardItem *> rowItems;
-		rowItems.append(new QStandardItem(name));
-		rowItems.append(new QStandardItem());
-		mListModel.appendRow(rowItems);
-		mRows[name] = mListModel.indexFromItem(rowItems.first()).row();
+		int row = mConsole.rowCount();
+		mRows[name] = row;
+		mConsole.insertRow(row);
+		mConsole.setItem(row, 0, new QTableWidgetItem(name));
+		mConsole.setItem(row, 1, new QTableWidgetItem(QString()));
 	}
 
 	switch (state)
 	{
 		case testInProcess:
 		{
-			mListModel.item(mRows[name], 1)->setText("IN PROCESS");
+			mConsole.item(mRows[name], 1)->setText("IN PROCESS");
 			break;
 		}
 		case testSuccess:
 		{
-			mListModel.item(mRows[name], 1)->setText("OK");
+			mConsole.item(mRows[name], 1)->setText("OK");
 			break;
 		}
 		case testFail:
 		{
-			mListModel.item(mRows[name], 1)->setText("FAIL");
+			mConsole.item(mRows[name], 1)->setText("FAIL");
 			break;
 		}
 	}

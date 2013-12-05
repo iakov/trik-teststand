@@ -14,19 +14,16 @@
 
 #pragma once
 
-#include <QtCore/QObject>
 #include <QtCore/QStringList>
 #include <QtCore/QtPlugin>
 
 #include <trikControl/brick.h>
 
-namespace trikTest
-{
+//namespace trikTest
+//{
 
-class TestInterface : public QObject
+class TestInterface
 {
-	Q_OBJECT
-
 public:
 	virtual ~TestInterface() {}
 
@@ -39,6 +36,6 @@ public:
 	virtual Result run(trikControl::Brick &brick, QStringList &log) = 0;
 };
 
-}
+//}
 
-Q_DECLARE_INTERFACE(trikTest::TestInterface, "trikTest.TestInterface")
+Q_DECLARE_INTERFACE(TestInterface, "trikTest.TestInterface")
