@@ -15,7 +15,7 @@
 TARGET = $$qtLibraryTarget(pwmTest)
 TEMPLATE = lib
 CONFIG += plugin
-INCLUDEPATH += ..
+INCLUDEPATH += ../common
 
 CONFIG(debug, debug | release) {
 	CONFIGURATION = debug
@@ -23,10 +23,10 @@ CONFIG(debug, debug | release) {
 	CONFIGURATION = release
 }
 
-DESTDIR=../bin/$$CONFIGURATION
+DESTDIR=../build/$$CONFIGURATION
 
-OBJECTS_DIR = .build/$$CONFIGURATION/.obj
-MOC_DIR = .build/$$CONFIGURATION/.moc
+OBJECTS_DIR = .build/$$CONFIGURATION/obj
+MOC_DIR = .build/$$CONFIGURATION/moc
 
 DEFINES += PWMTEST_LIBRARY
 

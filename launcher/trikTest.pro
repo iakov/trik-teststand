@@ -28,11 +28,12 @@ CONFIG(debug, debug | release) {
 
 TARGET = trikTest$$CONFIGURATION_SUFFIX
 
-DESTDIR = bin/$$CONFIGURATION
+DESTDIR = ../build/$$CONFIGURATION
 
-OBJECTS_DIR = .build/$$CONFIGURATION/.obj
-MOC_DIR = .build/$$CONFIGURATION/.moc
+OBJECTS_DIR = .build/$$CONFIGURATION/obj
+MOC_DIR = .build/$$CONFIGURATION/moc
 
+QMAKE_INCDIR += ../common
 QMAKE_LIBS += -ltrikControl
 QMAKE_LIBDIR += /home/roman/lib
 
@@ -45,7 +46,6 @@ SOURCES += \
 
 HEADERS  += \
 	trikTestApplication.h \
-	testInterface.h \
 	configurer.h \
 	launcher.h \
 	logPrinter.h

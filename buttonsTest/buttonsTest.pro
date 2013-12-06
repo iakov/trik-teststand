@@ -14,7 +14,7 @@
 
 #QT += core gui
 CONFIG += plugin
-INCLUDEPATH += ..
+INCLUDEPATH += ../common
 TARGET = $$qtLibraryTarget(buttonsTest)
 TEMPLATE = lib
 
@@ -25,10 +25,10 @@ CONFIG(debug, debug | release) {
 	CONFIGURATION = release
 }
 
-DESTDIR=../bin/$$CONFIGURATION
+DESTDIR=../build/$$CONFIGURATION
 
-OBJECTS_DIR = .build/$$CONFIGURATION/.obj
-MOC_DIR = .build/$$CONFIGURATION/.moc
+OBJECTS_DIR = .build/$$CONFIGURATION/obj
+MOC_DIR = .build/$$CONFIGURATION/moc
 
 DEFINES += BUTTONSTEST_LIBRARY
 
