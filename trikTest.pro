@@ -40,10 +40,12 @@ SOURCES += \
 	main.cpp \
 	trikTestApplication.cpp \
 	configurer.cpp \
-	launcher.cpp
+	launcher.cpp \
+    logPrinter.cpp
 
 HEADERS  += \
 	trikTestApplication.h \
 	testInterface.h \
 	configurer.h \
-	launcher.h
+	launcher.h \
+    logPrinter.h

@@ -20,6 +20,7 @@
 
 #include "testInterface.h"
 #include "trikTestApplication.h"
+#include "logPrinter.h"
 
 using namespace trikTest;
 
@@ -90,7 +91,8 @@ void Launcher::keyPressEvent(QKeyEvent *event)
 			{
 				case Qt::Key_Enter:
 				{
-					//show log
+					LogPrinter logPrinter(mLogs[mConsole.item(mConsole.currentRow(), 0)->text()]);
+					logPrinter.exec();
 					break;
 				}
 				case Qt::Key_Meta:
