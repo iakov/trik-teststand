@@ -1,0 +1,12 @@
+<pwmTest>
+	<stages>
+		<stage generatorPort="1" capturePort="1"/>
+		<stage generatorPort="2" capturePort="2"/>
+		<stage generatorPort="4" capturePort="3"/>
+	</stages>
+	<powerValues>
+		<powerValue value="-50"/>
+		<powerValue value="0"/>
+		<powerValue value="50"/>
+	</powerValues>
+</pwmTest>

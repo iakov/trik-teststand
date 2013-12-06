@@ -27,14 +27,14 @@ Configurer::Configurer()
 	QFile file("trikTest.xml");
 	if (!file.open(QIODevice::ReadOnly))
 	{
-		qDebug() << "Failed to open config.xml for reading";
-		throw "Failed to open config.xml for reading";
+		qDebug() << "Failed to open trikTest.xml for reading";
+		throw "Failed to open trikTest.xml for reading";
 	}
 	if (!config.setContent(&file))
 	{
 		file.close();
-		qDebug() << "config.xml parsing failed";
-		throw "config.xml parsing failed";
+		qDebug() << "trikTest.xml parsing failed";
+		throw "trikTest.xml parsing failed";
 	}
 
 	file.close();
@@ -43,8 +43,8 @@ Configurer::Configurer()
 
 	if (root.elementsByTagName("tests").isEmpty())
 	{
-		qDebug() << "config.xml does not have <tests> tag";
-		throw "config.xml parsing failed";
+		qDebug() << "trikTest.xml does not have <tests> tag";
+		throw "trikTest.xml parsing failed";
 	}
 
 	QDomElement const tests = root.elementsByTagName("tests").at(0).toElement();
@@ -59,7 +59,7 @@ Configurer::Configurer()
 		QDomElement const childElement = child.toElement();
 		if (childElement.nodeName() != "test") {
 			qDebug() << "Malformed <tests> tag";
-			throw "config.xml parsing failed";
+			throw "trikTest.xml parsing failed";
 		}
 
 		QString name = childElement.attribute("name");
