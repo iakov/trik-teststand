@@ -14,6 +14,7 @@
 
 #include "pwmTest.h"
 
+#include <QtCore/QDebug>
 #include <trikControl/servoMotor.h>
 #include <trikControl/pwmCapture.h>
 

@@ -25,7 +25,7 @@
 using namespace trikTest;
 
 Launcher::Launcher()
-	: mBrick(*TrikTestApplication::instance()->thread())
+	: mBrick(*TrikTestApplication::instance()->thread(), "./")
 	, mConsole(0, 2)
 	, mState(notStarted)
 {
