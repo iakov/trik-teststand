@@ -28,11 +28,14 @@ DESTDIR=../build/$$CONFIGURATION
 OBJECTS_DIR = .build/$$CONFIGURATION/obj
 MOC_DIR = .build/$$CONFIGURATION/moc
 
+QMAKE_LIBDIR += ../build/$$CONFIGURATION
+QMAKE_LIBS += -ltrikTestCommon
+
 DEFINES += SOUNDTEST_LIBRARY
 
-SOURCES += soundTest.cpp \
-    yesNoBox.cpp
+SOURCES += \
+		soundTest.cpp
 
-HEADERS += soundTest.h \
-    yesNoBox.h
+HEADERS += \
+		soundTest.h
 

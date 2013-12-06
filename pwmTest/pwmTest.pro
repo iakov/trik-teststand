@@ -28,17 +28,18 @@ DESTDIR=../build/$$CONFIGURATION
 OBJECTS_DIR = .build/$$CONFIGURATION/obj
 MOC_DIR = .build/$$CONFIGURATION/moc
 
+QMAKE_LIBDIR += ../build/$$CONFIGURATION
+QMAKE_LIBS += -ltrikTestCommon
+
 DEFINES += PWMTEST_LIBRARY
 
 SOURCES += \
 	pwmTest.cpp \
-	configurer.cpp \
-	messageBox.cpp
+	configurer.cpp
 
 HEADERS += \
 	pwmTest.h \
-	configurer.h \
-	messageBox.h
+	configurer.h
 
 OTHER_FILES += \
 	pwmTest.xml

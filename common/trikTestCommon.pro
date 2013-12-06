@@ -12,10 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-TARGET = $$qtLibraryTarget(ledTest)
+QT += core gui
+
+TARGET = trikTestCommon
 TEMPLATE = lib
-CONFIG += plugin
-INCLUDEPATH += ../common
 
 CONFIG(debug, debug | release) {
 	CONFIGURATION = debug
@@ -23,18 +23,19 @@ CONFIG(debug, debug | release) {
 	CONFIGURATION = release
 }
 
-DESTDIR=../build/$$CONFIGURATION
+DESTDIR = ../build/$$CONFIGURATION
 
 OBJECTS_DIR = .build/$$CONFIGURATION/obj
 MOC_DIR = .build/$$CONFIGURATION/moc
 
-QMAKE_LIBDIR += ../build/$$CONFIGURATION
-QMAKE_LIBS += -ltrikTestCommon
-
-DEFINES += LEDTEST_LIBRARY
+DEFINES += TRIKTESTCOMMON_LIBRARY
 
 SOURCES += \
-	ledTest.cpp
+	yesNoBox.cpp \
+	messageBox.cpp
 
 HEADERS += \
-	ledTest.h
+	yesNoBox.h \
+	testInterface.h \
+	messageBox.h
+
