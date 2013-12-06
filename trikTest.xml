@@ -1,0 +1,8 @@
+<trikTest>
+	<tests>
+		<test name="Buttons Test" file="libbuttonsTest.so" />
+		<test name="LED Test" file="libledTest.so" />
+		<test name="PWM Test" file="libpwmTest.so" />
+		<test name="Sound Test" file="libsoundTest.so" />
+	</tests>
+</trikTest>

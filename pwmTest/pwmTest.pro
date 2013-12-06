@@ -32,13 +32,15 @@ DEFINES += PWMTEST_LIBRARY
 
 SOURCES += \
 	pwmTest.cpp \
-    configurer.cpp \
-    messageBox.cpp
+	configurer.cpp \
+	messageBox.cpp
 
 HEADERS += \
 	pwmTest.h \
-    configurer.h \
-    messageBox.h
+	configurer.h \
+	messageBox.h
 
 OTHER_FILES += \
-    pwmTest.xml
+	pwmTest.xml
+
+QMAKE_POST_LINK = "cp -f pwmTest.xml $$DESTDIR"

@@ -41,11 +41,16 @@ SOURCES += \
 	trikTestApplication.cpp \
 	configurer.cpp \
 	launcher.cpp \
-    logPrinter.cpp
+	logPrinter.cpp
 
 HEADERS  += \
 	trikTestApplication.h \
 	testInterface.h \
 	configurer.h \
 	launcher.h \
-    logPrinter.h
+	logPrinter.h
+
+OTHER_FILES += \
+	trikTest.xml
+
+QMAKE_POST_LINK = "cp -f trikTest.xml $$DESTDIR"
