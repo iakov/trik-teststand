@@ -4,5 +4,6 @@
 		<test name="LED Test" file="libledTest.so" />
 		<test name="PWM Test" file="libpwmTest.so" />
 		<test name="Sound Test" file="libsoundTest.so" />
+		<test name="Accelerometer Test" file="libaccelerometerTest.so" />
 	</tests>
 </trikTest>
