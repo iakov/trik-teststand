@@ -18,8 +18,6 @@
 #include <QtXml/QDomDocument>
 #include <QtCore/QDebug>
 
-using namespace trikTest;
-
 Configurer::Configurer()
 {
 	QDomDocument config("trikTest");

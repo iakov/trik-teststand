@@ -30,9 +30,6 @@
 
 #include "configurer.h"
 
-namespace trikTest
-{
-
 class Launcher : public QWidget
 {
 	Q_OBJECT
@@ -77,5 +74,3 @@ private:
 
 	void setTestState(QString const &name, TestState state);
 };
-
-}

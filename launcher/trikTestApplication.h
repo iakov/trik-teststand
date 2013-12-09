@@ -17,9 +17,6 @@
 #include <QtGui/QApplication>
 #include <QtCore/QMap>
 
-namespace trikTest
-{
-
 class TrikTestApplication : public QApplication
 {
 	Q_OBJECT
@@ -31,5 +28,3 @@ public:
 private:
 	QMap<int, int> keysConversions;
 };
-
-}

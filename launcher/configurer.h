@@ -20,9 +20,6 @@
 
 #include "testInterface.h"
 
-namespace trikTest
-{
-
 class Configurer : public QObject
 {
 	Q_OBJECT
@@ -35,5 +32,3 @@ public:
 private:
 	QMap<QString, QString> mFiles;
 };
-
-}

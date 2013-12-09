@@ -16,8 +16,6 @@
 
 #include <QtGui/QKeyEvent>
 
-using namespace trikTest;
-
 TrikTestApplication::TrikTestApplication(int argc, char **argv)
 	: QApplication(argc, argv)
 {

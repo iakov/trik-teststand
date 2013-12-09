@@ -22,8 +22,6 @@
 #include "trikTestApplication.h"
 #include "logPrinter.h"
 
-using namespace trikTest;
-
 Launcher::Launcher()
 	: mBrick(*TrikTestApplication::instance()->thread(), "./")
 	, mTable(0, 2)
