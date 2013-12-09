@@ -52,7 +52,7 @@ private:
 	QVBoxLayout mMainLayout;
 	QHBoxLayout mTopLayout, mBottomLayout;
 	QLabel mTopButtonsLabels[3], mBottomButtonsLabels[3];
-	QTableWidget mConsole;
+	QTableWidget mTable;
 
 	void startTesting();
 	void performTest(QString const &name);

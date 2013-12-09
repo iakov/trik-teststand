@@ -26,10 +26,13 @@ using namespace trikTest;
 
 Launcher::Launcher()
 	: mBrick(*TrikTestApplication::instance()->thread(), "./")
-	, mConsole(0, 2)
+	, mTable(0, 2)
 	, mState(notStarted)
 {
 	setWindowState(Qt::WindowFullScreen);
+
+	mTable.setColumnWidth(0, 150);
+	mTable.setColumnWidth(1, 100);
 
 	mTopButtonsLabels[0].setAlignment(Qt::AlignTop | Qt::AlignLeft);
 	mTopButtonsLabels[1].setAlignment(Qt::AlignTop | Qt::AlignHCenter);
@@ -47,11 +50,11 @@ Launcher::Launcher()
 		mBottomLayout.addWidget(&mBottomButtonsLabels[i]);
 	}
 
-	mConsole.setSelectionBehavior(QAbstractItemView::SelectRows);
-	mConsole.setSelectionMode(QAbstractItemView::SingleSelection);
+	mTable.setSelectionBehavior(QAbstractItemView::SelectRows);
+	mTable.setSelectionMode(QAbstractItemView::SingleSelection);
 
 	mMainLayout.addLayout(&mTopLayout);
-	mMainLayout.addWidget(&mConsole);
+	mMainLayout.addWidget(&mTable);
 	mMainLayout.addLayout(&mBottomLayout);
 
 	setLayout(&mMainLayout);
@@ -91,14 +94,14 @@ void Launcher::keyPressEvent(QKeyEvent *event)
 			{
 				case Qt::Key_Enter:
 				{
-					LogPrinter logPrinter(mLogs[mConsole.item(mConsole.currentRow(), 0)->text()]);
+					LogPrinter logPrinter(mLogs[mTable.item(mTable.currentRow(), 0)->text()]);
 					logPrinter.exec();
 					break;
 				}
 				case Qt::Key_Meta:
 				{
 					setState(inProcess);
-					performTest(mConsole.item(mConsole.currentRow(), 0)->text());
+					performTest(mTable.item(mTable.currentRow(), 0)->text());
 					setState(finished);
 					break;
 				}
@@ -170,28 +173,29 @@ void Launcher::setTestState(QString const &name, Launcher::TestState state)
 {
 	if (!mRows.contains(name))
 	{
-		int row = mConsole.rowCount();
+		int row = mTable.rowCount();
 		mRows[name] = row;
-		mConsole.insertRow(row);
-		mConsole.setItem(row, 0, new QTableWidgetItem(name));
-		mConsole.setItem(row, 1, new QTableWidgetItem(QString()));
+		mTable.insertRow(row);
+		mTable.setItem(row, 0, new QTableWidgetItem(name));
+		mTable.setItem(row, 1, new QTableWidgetItem(QString()));
+		mTable.item(row, 1)->setTextAlignment(Qt::AlignCenter);
 	}
 
 	switch (state)
 	{
 		case testInProcess:
 		{
-			mConsole.item(mRows[name], 1)->setText("IN PROCESS");
+			mTable.item(mRows[name], 1)->setText("IN PROCESS");
 			break;
 		}
 		case testSuccess:
 		{
-			mConsole.item(mRows[name], 1)->setText("OK");
+			mTable.item(mRows[name], 1)->setText("OK");
 			break;
 		}
 		case testFail:
 		{
-			mConsole.item(mRows[name], 1)->setText("FAIL");
+			mTable.item(mRows[name], 1)->setText("FAIL");
 			break;
 		}
 	}
