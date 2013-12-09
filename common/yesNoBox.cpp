@@ -41,10 +41,14 @@ void YesNoBox::setQuestion(QString const &question)
 
 YesNoBox::Answer YesNoBox::exec()
 {
+	show();
+	Answer answer;
 	if (mEventLoop.exec() == 0)
-		return yes;
+		answer = yes;
 	else
-		return no;
+		answer = no;
+	hide();
+	return answer;
 }
 
 void YesNoBox::keyPressEvent(QKeyEvent *event)

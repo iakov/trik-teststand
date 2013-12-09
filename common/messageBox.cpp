@@ -12,7 +12,9 @@ MessageBox::MessageBox(QString const &message)
 
 void MessageBox::exec()
 {
+	show();
 	mEventLoop.exec();
+	hide();
 }
 
 void MessageBox::setMessage(const QString &message)
