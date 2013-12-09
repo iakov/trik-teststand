@@ -58,15 +58,16 @@ Launcher::Launcher()
 	setLayout(&mMainLayout);
 
 	Configurer configurer;
+	mTests = configurer.tests();
 	mFiles = configurer.files();
 }
 
 void Launcher::startTesting()
 {
 	setState(inProcess);
-	for (QMap<QString, QString>::const_iterator i = mFiles.constBegin(); i != mFiles.constEnd(); ++i)
+	foreach (QString const &test, mTests)
 	{
-		performTest(i.key());
+		performTest(test);
 	}
 	setState(finished);
 }

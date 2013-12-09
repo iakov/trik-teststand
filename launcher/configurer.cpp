@@ -62,8 +62,14 @@ Configurer::Configurer()
 
 		QString name = childElement.attribute("name");
 		QString file = childElement.attribute("file");
+		mTests.append(name);
 		mFiles[name] = file;
 	}
+}
+
+QList<QString> Configurer::tests()
+{
+	return mTests;
 }
 
 QMap<QString, QString> Configurer::files()

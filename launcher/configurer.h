@@ -16,6 +16,7 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QMap>
+#include <QtCore/QList>
 #include <QtCore/QString>
 
 #include "testInterface.h"
@@ -27,8 +28,10 @@ class Configurer : public QObject
 public:
 	Configurer();
 
+	QList<QString> tests();
 	QMap<QString, QString> files();
 
 private:
+	QList<QString> mTests;
 	QMap<QString, QString> mFiles;
 };

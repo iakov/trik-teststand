@@ -17,6 +17,7 @@
 #include <QtGui/QWidget>
 #include <QtCore/QString>
 #include <QtCore/QStringList>
+#include <QtCore/QList>
 #include <QtCore/QMap>
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QVBoxLayout>
@@ -42,6 +43,7 @@ protected:
 
 private:
 	trikControl::Brick mBrick;
+	QList<QString> mTests;
 	QMap<QString, QString> mFiles;
 	QMap<QString, QStringList> mLogs;
 	QMap<QString, int> mRows;
