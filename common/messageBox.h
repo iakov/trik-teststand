@@ -3,7 +3,7 @@
 #include <QtGui/QWidget>
 #include <QtCore/QString>
 #include <QtGui/QLabel>
-#include <QtGui/QHBoxLayout>
+#include <QtGui/QVBoxLayout>
 #include <QtCore/QEventLoop>
 
 class MessageBox : public QWidget
@@ -16,10 +16,11 @@ public:
 	void setMessage(QString const &message);
 
 protected:
-	void keyPressEvent(QKeyEvent *);
+	void keyPressEvent(QKeyEvent *event);
 
 private:
-	QHBoxLayout layout;
+	QVBoxLayout layout;
 	QLabel messageLabel;
+	QLabel okLabel;
 	QEventLoop mEventLoop;
 };
