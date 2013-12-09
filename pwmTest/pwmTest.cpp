@@ -64,25 +64,35 @@ void PwmTest::performStage(Configurer::Stage const &stage)
 	MessageBox messageBox(tr("Соедините JE") + stage.generatorPort + tr(" и JC") + stage.capturePort);
 	messageBox.exec();
 
+	mLog->append(tr("Подаём на JE") + stage.generatorPort);
+	mLog->append(tr("Считываем с JC") + stage.capturePort);
+	mLog->append(QString());
+
 	foreach (int const power, mPowerValues)
 	{
-			generator->setPower(power);
-			mLog->append(tr("На выходе:"));
-			mLog->append(tr("частота ") + QString::number(generator->frequency()) + tr("Гц"));
-			mLog->append(tr("ширина импульса ") + QString::number(generator->duty()) + tr("%"));
+		generator->setPower(power);
 
-			QVector<int> inputFrequency = capture->frequency();
-			int inputDuty = capture->duty();
-			if (inputFrequency[0] != generator->frequency() || inputFrequency[0] != inputFrequency[1]
-							|| inputFrequency[1] != inputFrequency[2] || inputDuty != generator->duty()) {
-					result = fail;
-			}
+		int outputFrequency = generator->frequency();
+		int outputDuty = generator->duty();
+		mLog->append(tr("На выходе:"));
+		mLog->append(tr("частота ") + QString::number(outputFrequency) + tr("Гц"));
+		mLog->append(tr("ширина импульса ") + QString::number(outputDuty) + tr("%"));
 
-			mLog->append(tr("На входе:"));
-			mLog->append(tr("частота (") + QString::number(inputFrequency[0]) + "," + QString::number(inputFrequency[1]) + "," +
-							QString::number(inputFrequency[2]) + tr(")Гц "));
-			mLog->append(tr("ширина импульса ") + QString::number(inputDuty) + "%");
-			mLog->append(QString());
+		QVector<int> inputFrequency = capture->frequency();
+		int inputDuty = capture->duty();
+		mLog->append(tr("На входе:"));
+		mLog->append(tr("частота (") + QString::number(inputFrequency[0]) + ","
+				+ QString::number(inputFrequency[1]) + "," + QString::number(inputFrequency[2]) + tr(")Гц "));
+		mLog->append(tr("ширина импульса ") + QString::number(inputDuty) + "%");
+		mLog->append(QString());
+
+		if (inputFrequency[0] != outputFrequency || inputFrequency[0] != inputFrequency[1]
+				|| inputFrequency[1] != inputFrequency[2] || inputDuty != outputDuty)
+		{
+			result = fail;
+			mLog->append(tr("Ошибка!"));
+			break;
+		}
 	}
 }
 
