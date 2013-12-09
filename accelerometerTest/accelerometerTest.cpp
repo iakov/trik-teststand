@@ -66,6 +66,7 @@ void AccelerometerTest::printReading()
 			+ ", " + QString::number(reading[1])
 			+ ", " + QString::number(reading[2]) + ")";
 	mReadingsList.addItem(readingString);
+	mReadingsList.setCurrentRow(mReadingsList.count() - 1);
 	mLog->append(readingString);
 }
 
