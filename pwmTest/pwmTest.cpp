@@ -84,15 +84,17 @@ void PwmTest::performStage(Configurer::Stage const &stage)
 		mLog->append(tr("частота (") + QString::number(inputFrequency[0]) + ","
 				+ QString::number(inputFrequency[1]) + "," + QString::number(inputFrequency[2]) + tr(")Гц "));
 		mLog->append(tr("ширина импульса ") + QString::number(inputDuty) + "%");
-		mLog->append(QString());
 
 		if (inputFrequency[0] != outputFrequency || inputFrequency[0] != inputFrequency[1]
 				|| inputFrequency[1] != inputFrequency[2] || inputDuty != outputDuty)
 		{
 			result = fail;
 			mLog->append(tr("Ошибка!"));
+			mLog->append(QString());
 			break;
 		}
+
+		mLog->append(QString());
 	}
 }
 
