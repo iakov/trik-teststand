@@ -4,7 +4,8 @@
 #include <QtCore/QStringList>
 #include <QtCore/QEventLoop>
 #include <QtGui/QListWidget>
-#include <QtGui/QHBoxLayout>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QLabel>
 
 class LogPrinter : public QWidget
 {
@@ -21,6 +22,7 @@ protected:
 private:
 	QEventLoop mEventLoop;
 
-	QHBoxLayout mLayout;
+	QVBoxLayout mLayout;
 	QListWidget mLogArea;
+	QLabel okLabel;
 };
