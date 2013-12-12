@@ -180,6 +180,8 @@ void Launcher::setTestState(QString const &name, Launcher::TestState state)
 		mTable.item(row, 1)->setTextAlignment(Qt::AlignCenter);
 	}
 
+	mTable.selectRow(mRows[name]);
+
 	switch (state)
 	{
 		case testInProcess:
