@@ -6,5 +6,6 @@
 		<test name="Sound Test" file="libsoundTest.so" />
 		<test name="Accelerometer Test" file="libaccelerometerTest.so" />
 		<test name="Gyroscope Test" file="libgyroscopeTest.so" />
+		<test name="USB Test" file="libusbTest.so" />
 	</tests>
 </trikTest>
