@@ -12,45 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-TEMPLATE = app
-
-QT += core gui xml network
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+CONFIG += plugin
+INCLUDEPATH += ../common
+TARGET = $$qtLibraryTarget(interfaceTest)
+TEMPLATE = lib
 
 CONFIG(debug, debug | release) {
 	CONFIGURATION = debug
-	CONFIGURATION_SUFFIX = d
 } else {
 	CONFIGURATION = release
-	CONFIGURATION_SUFFIX =
 }
 
-TARGET = trikTest$$CONFIGURATION_SUFFIX
-
-DESTDIR = ../build/$$CONFIGURATION
+DESTDIR=../build/$$CONFIGURATION
 
 OBJECTS_DIR = .build/$$CONFIGURATION/obj
 MOC_DIR = .build/$$CONFIGURATION/moc
 
-QMAKE_INCDIR += ../common
-QMAKE_LIBS += -ltrikControl
-QMAKE_LIBDIR += /home/roman/lib
+DEFINES += INTERFACETEST_LIBRARY
 
 SOURCES += \
-	main.cpp \
-	trikTestApplication.cpp \
-	configurer.cpp \
-	launcher.cpp \
-	logPrinter.cpp
+	interfaceTest.cpp
 
-HEADERS  += \
-	trikTestApplication.h \
-	configurer.h \
-	launcher.h \
-	logPrinter.h
-
-OTHER_FILES += \
-	trikTest.xml
-
-QMAKE_POST_LINK = "cp -f trikTest.xml $$DESTDIR"
+HEADERS += \
+	interfaceTest.h
