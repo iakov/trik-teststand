@@ -5,8 +5,8 @@
 	</busses>
 
 	<devices>
-		<device name="Усилитель DS4420" bus="2" address="0x18"/>
-		<device name="8451Q" bus="2" address="0x1C" />
-		<device name="Кодек TVL3105" bus="2" address="0x50" />
+		<device name="Amplifier DS4420" bus="2" address="0x18"/>
+		<device name="Accelerometer 8451Q" bus="2" address="0x1C" />
+		<device name="Codec TVL3105" bus="2" address="0x50" />
 	</devices>
 </i2cTest>
