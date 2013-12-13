@@ -53,13 +53,11 @@ private:
 	QLabel mTopButtonsLabels[3], mBottomButtonsLabels[3];
 	QTableWidget mTable;
 
-	void startTesting();
 	void performTest(QString const &name);
 
 	enum State
 	{
-		notStarted
-		, inProcess
+		inProcess
 		, finished
 	};
 
@@ -75,4 +73,7 @@ private:
 	};
 
 	void setTestState(QString const &name, TestState state);
+
+public slots:
+	void startTesting();
 };

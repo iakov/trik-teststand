@@ -15,6 +15,7 @@
 #include <QtGui/QFont>
 #include <QtCore/QTextCodec>
 #include <QtGui/QWSServer>
+#include <QtCore/QTimer>
 
 #include "trikTestApplication.h"
 #include "launcher.h"
@@ -37,6 +38,8 @@ int main(int argc, char *argv[])
 
 	Launcher launcher;
 	launcher.show();
+
+	QTimer::singleShot(0, &launcher, SLOT(startTesting()));
 
 	return a.exec();
 }

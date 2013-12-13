@@ -21,11 +21,12 @@
 #include "testInterface.h"
 #include "trikTestApplication.h"
 #include "logPrinter.h"
+#include "messageBox.h"
 
 Launcher::Launcher()
 	: mBrick(*TrikTestApplication::instance()->thread(), "./")
 	, mTable(0, 2)
-	, mState(notStarted)
+	, mState(finished)
 {
 	setWindowState(Qt::WindowFullScreen);
 
@@ -64,6 +65,9 @@ Launcher::Launcher()
 
 void Launcher::startTesting()
 {
+	MessageBox messageBox(tr("Тестирование контроллера ТРИК"));
+	messageBox.exec();
+
 	setState(inProcess);
 	foreach (QString const &test, mTests)
 	{
@@ -76,12 +80,6 @@ void Launcher::keyPressEvent(QKeyEvent *event)
 {
 	switch (mState)
 	{
-		case notStarted:
-		{
-			setState(inProcess);
-			startTesting();
-			break;
-		}
 		case inProcess:
 		{
 			QWidget::keyPressEvent(event);
