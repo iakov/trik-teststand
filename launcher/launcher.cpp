@@ -198,4 +198,6 @@ void Launcher::setTestState(QString const &name, Launcher::TestState state)
 			break;
 		}
 	}
+
+	TrikTestApplication::processEvents();
 }
