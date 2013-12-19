@@ -117,6 +117,8 @@ void Launcher::performTest(QString const &name)
 {
 	setTestState(name, testInProcess);
 
+	mLogs[name].clear();
+
 	QPluginLoader testLoader(mFiles[name]);
 
 	if (testLoader.instance() == NULL)
