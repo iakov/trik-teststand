@@ -14,7 +14,7 @@
 
 CONFIG += plugin
 INCLUDEPATH += ../common
-TARGET = $$qtLibraryTarget(usbTest)
+TARGET = $$qtLibraryTarget(usbConnectTest)
 TEMPLATE = lib
 
 CONFIG(debug, debug | release) {
@@ -28,17 +28,10 @@ DESTDIR=../build/$$CONFIGURATION
 OBJECTS_DIR = .build/$$CONFIGURATION/obj
 MOC_DIR = .build/$$CONFIGURATION/moc
 
-DEFINES += USBTEST_LIBRARY
+DEFINES += USBCONNECTTEST_LIBRARY
 
 SOURCES += \
-	usbTest.cpp \
-	configurer.cpp
+	usbConnectTest.cpp
 
 HEADERS += \
-	usbTest.h \
-	configurer.h
-
-OTHER_FILES += \
-	usbTest.xml
-
-QMAKE_POST_LINK = "cp -f usbTest.xml $$DESTDIR"
+	usbConnectTest.h

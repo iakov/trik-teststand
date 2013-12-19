@@ -12,32 +12,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. */
 
+#include "usbConnectTest.h"
+
+#include <QtCore/QList>
+
+#include "messageBox.h"
 #include "usbCommunicator.h"
 
-UsbCommunicator::UsbCommunicator()
+TestInterface::Result UsbConnectTest::run(trikControl::Brick &brick, QStringList &log)
 {
+	UsbCommunicator usbCommunicator;
+
+	usbCommunicator.scan();
+	int initialCount = usbCommunicator.devices().count();
+
+	MessageBox messageBox(tr("Подключите любое устройство к порту USB"));
+	messageBox.exec();
+
+	usbCommunicator.scan();
+	int countAfterConnecting = usbCommunicator.devices().count();
+
+	return (countAfterConnecting > initialCount) ? TestInterface::success : TestInterface::fail;
 }
 
-void UsbCommunicator::scan()
-{
-	libusb_context *context;
-	libusb_init(&context);
-	libusb_device **list;
-	ssize_t deviceCount = libusb_get_device_list(context, &list);
-	for (ssize_t i = 0; i < deviceCount; ++i)
-	{
-		libusb_device *device = list[i];
-		libusb_device_descriptor descriptor;
-		libusb_get_device_descriptor(device, &descriptor);
-		Device deviceInfo;
-		deviceInfo.vendor = descriptor.idVendor;
-		deviceInfo.product = descriptor.idProduct;
-		mDevices.append(deviceInfo);
-	}
-	libusb_exit(context);
-}
-
-QList<UsbCommunicator::Device> UsbCommunicator::devices()
-{
-	return mDevices;
-}
+Q_EXPORT_PLUGIN2(trikTest, UsbConnectTest)

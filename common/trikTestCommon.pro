@@ -17,6 +17,8 @@ QT += core gui
 TARGET = trikTestCommon
 TEMPLATE = lib
 
+QMAKE_LIBS += -lusb-1.0
+
 CONFIG(debug, debug | release) {
 	CONFIGURATION = debug
 } else {
@@ -31,10 +33,12 @@ MOC_DIR = .build/$$CONFIGURATION/moc
 DEFINES += TRIKTESTCOMMON_LIBRARY
 
 SOURCES += \
+	usbCommunicator.cpp \
 	yesNoBox.cpp \
 	messageBox.cpp
 
 HEADERS += \
+	usbCommunicator.h \
 	yesNoBox.h \
 	testInterface.h \
 	messageBox.h
