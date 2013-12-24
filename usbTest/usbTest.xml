@@ -1,0 +1,16 @@
+<usbTest>
+	<vendors>
+		<vendor id="0x1d6b" name="Linux Foundation" />
+		<vendor id="0x2047" name="Texas Instruments" />
+	</vendors>
+
+	<products>
+		<product id="0x0001" name="1.1 root hub" />
+		<product id="0x0002" name="2.0 root hub" />
+		<product id="0x0200" name="MSP430 USB HID Bootstrap Loader" />
+	</products>
+
+	<devices>
+		<device vendor="0x2047" product="0x0200" />
+	</devices>
+</usbTest>

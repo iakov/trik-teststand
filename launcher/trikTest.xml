@@ -1,0 +1,15 @@
+<trikTest>
+	<tests>
+		<test name="Buttons Test" file="libbuttonsTest.so" />
+		<test name="LED Test" file="libledTest.so" />
+		<test name="PWM Test" file="libpwmTest.so" />
+		<test name="Sound Test" file="libsoundTest.so" />
+		<test name="Accelerometer Test" file="libaccelerometerTest.so" />
+		<test name="Gyroscope Test" file="libgyroscopeTest.so" />
+		<test name="USB Test" file="libusbTest.so" />
+		<test name="USB Connect Test" file="libusbConnectTest.so" />
+		<test name="Interface Test" file="libinterfaceTest.so" />
+		<test name="Connect Test" file="libconnectTest.so" />
+		<test name="I2C Test" file="libi2cTest.so" />
+	</tests>
+</trikTest>

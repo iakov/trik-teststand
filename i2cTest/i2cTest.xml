@@ -1,0 +1,12 @@
+<i2cTest>
+	<busses>
+		<bus id="1" file="/dev/i2c-1" />
+		<bus id="2" file="/dev/i2c-2" />
+	</busses>
+
+	<devices>
+		<device name="Amplifier DS4420" bus="2" address="0x18"/>
+		<device name="Accelerometer 8451Q" bus="2" address="0x1C" />
+		<device name="Codec TVL3105" bus="2" address="0x50" />
+	</devices>
+</i2cTest>
