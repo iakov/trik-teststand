@@ -36,7 +36,6 @@ MOC_DIR = .build/$$CONFIGURATION/moc
 QMAKE_INCDIR += ../common
 
 QMAKE_LIBS += -ltrikControl
-QMAKE_LIBDIR += /home/roman/lib
 
 QMAKE_LIBDIR += ../build/$$CONFIGURATION
 QMAKE_LIBS += -ltrikTestCommon
