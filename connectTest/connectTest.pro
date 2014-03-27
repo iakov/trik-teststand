@@ -17,8 +17,7 @@ INCLUDEPATH += ../common
 TARGET = $$qtLibraryTarget(connectTest)
 TEMPLATE = lib
 
-QMAKE_LIBS += -ltrikWiFi
-QMAKE_LIBDIR += /home/roman/lib
+LIBS += -ltrikWiFi
 
 CONFIG(debug, debug | release) {
 	CONFIGURATION = debug

@@ -33,12 +33,11 @@ DESTDIR = ../build/$$CONFIGURATION
 OBJECTS_DIR = .build/$$CONFIGURATION/obj
 MOC_DIR = .build/$$CONFIGURATION/moc
 
-QMAKE_INCDIR += ../common
+INCLUDEPATH += ../common
 
-QMAKE_LIBS += -ltrikControl
-
-QMAKE_LIBDIR += ../build/$$CONFIGURATION
-QMAKE_LIBS += -ltrikTestCommon
+LIBS += -ltrikControl \
+	-L../build/$$CONFIGURATION \
+	-ltrikTestCommon
 
 SOURCES += \
 	main.cpp \

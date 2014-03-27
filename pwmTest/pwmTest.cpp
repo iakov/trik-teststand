@@ -41,7 +41,8 @@ TestInterface::Result PwmTest::run(trikControl::Brick &brick, QStringList &log)
 
 void PwmTest::performStage(Configurer::Stage const &stage)
 {
-	trikControl::ServoMotor *generator = mBrick->servoMotor(stage.generatorPort);
+	trikControl::ServoMotor *generator =
+			dynamic_cast<trikControl::ServoMotor *>(mBrick->motor(stage.generatorPort));
 	if (generator == NULL)
 	{
 		mLog->append(tr("Невозможно получить доступ к JE") + stage.generatorPort);

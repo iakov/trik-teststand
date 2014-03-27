@@ -20,7 +20,7 @@
 
 #include "configurer.h"
 
-TestInterface::Result ConnectTest::run(trikControl::Brick &brick, QStringList &log)
+TestInterface::Result ConnectTest::run(trikControl::Brick &, QStringList &log)
 {
 	mWiFi = new trikWiFi::TrikWiFi("/tmp/trikwifi", "/run/wpa_supplicant/wlan0", this);
 	mLog = &log;

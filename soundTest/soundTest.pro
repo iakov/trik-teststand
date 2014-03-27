@@ -28,8 +28,8 @@ DESTDIR=../build/$$CONFIGURATION
 OBJECTS_DIR = .build/$$CONFIGURATION/obj
 MOC_DIR = .build/$$CONFIGURATION/moc
 
-QMAKE_LIBDIR += ../build/$$CONFIGURATION
-QMAKE_LIBS += -ltrikTestCommon
+LIBS += -L../build/$$CONFIGURATION \
+	-ltrikTestCommon
 
 DEFINES += SOUNDTEST_LIBRARY
 

@@ -16,7 +16,7 @@
 
 #include "yesNoBox.h"
 
-TestInterface::Result SoundTest::run(trikControl::Brick &brick, QStringList &log)
+TestInterface::Result SoundTest::run(trikControl::Brick &brick, QStringList &)
 {
 	brick.playSound("test.wav");
 	YesNoBox yesNoBox(tr("Услышали ли вы звук?"));

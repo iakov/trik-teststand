@@ -19,7 +19,7 @@
 #include "messageBox.h"
 #include "usbCommunicator.h"
 
-TestInterface::Result UsbConnectTest::run(trikControl::Brick &brick, QStringList &log)
+TestInterface::Result UsbConnectTest::run(trikControl::Brick &, QStringList &)
 {
 	UsbCommunicator usbCommunicator;
 

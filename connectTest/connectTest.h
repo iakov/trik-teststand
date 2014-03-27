@@ -16,7 +16,7 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QEventLoop>
-#include <trikWifi/trikWiFi.h>
+#include <trikWiFi/trikWiFi.h>
 
 #include "testInterface.h"
 
@@ -26,7 +26,7 @@ class ConnectTest: public QObject, public TestInterface
 	Q_INTERFACES(TestInterface)
 
 public:
-	TestInterface::Result run(trikControl::Brick &brick, QStringList &log);
+	TestInterface::Result run(trikControl::Brick &, QStringList &log);
 
 private:
 	trikWiFi::TrikWiFi *mWiFi;

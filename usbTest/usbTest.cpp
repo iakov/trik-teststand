@@ -17,7 +17,7 @@
 #include "usbCommunicator.h"
 #include "configurer.h"
 
-TestInterface::Result UsbTest::run(trikControl::Brick &brick, QStringList &log)
+TestInterface::Result UsbTest::run(trikControl::Brick &, QStringList &log)
 {
 	mLog = &log;
 

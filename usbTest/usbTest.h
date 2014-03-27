@@ -29,7 +29,7 @@ class UsbTest: public QObject, public TestInterface
 	Q_INTERFACES(TestInterface)
 
 public:
-	TestInterface::Result run(trikControl::Brick &brick, QStringList &log);
+	TestInterface::Result run(trikControl::Brick &, QStringList &log);
 
 private:
 	QStringList *mLog;

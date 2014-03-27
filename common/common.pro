@@ -17,7 +17,7 @@ QT += core gui
 TARGET = trikTestCommon
 TEMPLATE = lib
 
-QMAKE_LIBS += -lusb-1.0
+LIBS += -lusb-1.0
 
 CONFIG(debug, debug | release) {
 	CONFIGURATION = debug
