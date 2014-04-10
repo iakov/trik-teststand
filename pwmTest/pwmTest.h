@@ -16,6 +16,7 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QList>
+#include <QtCore/QHash>
 #include <trikControl/brick.h>
 
 #include "testInterface.h"
@@ -31,12 +32,21 @@ class PwmTest
 public:
 	TestInterface::Result run(trikControl::Brick &mBrick, QStringList &mLog);
 
+	struct GeneratorFiles {
+		QString requestFilePath;
+		QString runFilePath;
+		QString frequencyFilePath;
+		QString dutyFilePath;
+	};
+
 private:
 	trikControl::Brick *mBrick;
 	QStringList *mLog;
 	QList<Configurer::Stage> mStages;
 	QList<int> mPowerValues;
 	TestInterface::Result result;
+
+	QHash<QString, GeneratorFiles> mGeneratorFiles;
 
 	void performStage(Configurer::Stage const &stage);
 };

@@ -35,11 +35,13 @@ DEFINES += PWMTEST_LIBRARY
 
 SOURCES += \
 	pwmTest.cpp \
-	configurer.cpp
+	configurer.cpp \
+    pwmGenerator.cpp
 
 HEADERS += \
 	pwmTest.h \
-	configurer.h
+	configurer.h \
+    pwmGenerator.h
 
 OTHER_FILES += \
 	pwmTest.xml

@@ -24,7 +24,8 @@
 #include "messageBox.h"
 
 Launcher::Launcher()
-	: mBrick(*TrikTestApplication::instance()->thread(), "./")
+	/* TODO: move TrikControl directory to config file or command line argument */
+	: mBrick(*TrikTestApplication::instance()->thread(), "/home/root/trik/")
 	, mTable(0, 2)
 	, mState(finished)
 {
