@@ -24,7 +24,7 @@ YesNoBox::YesNoBox(QString const &question)
 	setWindowState(Qt::WindowFullScreen);
 
 	questionLabel.setAlignment(Qt::AlignCenter);
-	yesLabel.setAlignment(Qt::AlignBottom | Qt::AlignLeft);
+	noLabel.setAlignment(Qt::AlignBottom | Qt::AlignRight);
 	yesLabel.setAlignment(Qt::AlignBottom | Qt::AlignRight);
 
 	answersLayout.addWidget(&noLabel);
@@ -55,12 +55,12 @@ void YesNoBox::keyPressEvent(QKeyEvent *event)
 {
 	switch (event->key())
 	{
-		case Qt::Key_Enter:
+		case Qt::Key_Return:
 		{
 			mEventLoop.exit(0);
 			break;
 		}
-		case Qt::Key_Meta:
+		case Qt::Key_Down:
 		{
 			mEventLoop.exit(-1);
 			break;

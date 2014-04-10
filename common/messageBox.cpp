@@ -30,7 +30,7 @@ void MessageBox::setMessage(const QString &message)
 
 void MessageBox::keyPressEvent(QKeyEvent *event)
 {
-	if (event->key() == Qt::Key_Enter)
+	if (event->key() == Qt::Key_Return)
 		mEventLoop.quit();
 	else
 		QWidget::keyPressEvent(event);

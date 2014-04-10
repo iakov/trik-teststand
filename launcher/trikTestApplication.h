@@ -26,5 +26,5 @@ public:
 	bool notify(QObject *receiver, QEvent *event);
 
 private:
-	QMap<int, int> keysConversions;
+	QMap<int, int> mKeyMappings;
 };

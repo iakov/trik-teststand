@@ -23,11 +23,12 @@ TestInterface::Result ButtonsTest::run(trikControl::Brick &, QStringList &log)
 
 	setWindowState(Qt::WindowFullScreen);
 
-	mAllButtons << Qt::Key_Meta << Qt::Key_Enter << Qt::Key_Left <<
+	mAllButtons << Qt::Key_PowerDown /* << Qt::Key_Meta */ << Qt::Key_Return << Qt::Key_Left <<
 			Qt::Key_Right << Qt::Key_Up << Qt::Key_Down;
 
+	mButtonsNames[Qt::Key_PowerDown] = "PowerDown (F1)";
 	mButtonsNames[Qt::Key_Meta] = "Menu (F2)";
-	mButtonsNames[Qt::Key_Enter] = "Enter (F6)";
+	mButtonsNames[Qt::Key_Return] = "Enter (F6)";
 	mButtonsNames[Qt::Key_Left] = "Left (F3)";
 	mButtonsNames[Qt::Key_Right] = "Right (F7)";
 	mButtonsNames[Qt::Key_Up] = "Up (F5)";

@@ -19,12 +19,10 @@
 TrikTestApplication::TrikTestApplication(int argc, char **argv)
 	: QApplication(argc, argv)
 {
-	keysConversions[Qt::Key_F2] = Qt::Key_Meta;
-	keysConversions[Qt::Key_F3] = Qt::Key_Left;
-	keysConversions[Qt::Key_F4] = Qt::Key_Down;
-	keysConversions[Qt::Key_F5] = Qt::Key_Up;
-	keysConversions[Qt::Key_F6] = Qt::Key_Enter;
-	keysConversions[Qt::Key_F7] = Qt::Key_Right;
+	mKeyMappings[Qt::Key_Up] = Qt::Key_Left;
+	mKeyMappings[Qt::Key_Right] = Qt::Key_Up;
+	mKeyMappings[Qt::Key_Down] = Qt::Key_Right;
+	mKeyMappings[Qt::Key_Left] = Qt::Key_Down;
 }
 
 bool TrikTestApplication::notify(QObject *receiver, QEvent *event)
@@ -32,9 +30,9 @@ bool TrikTestApplication::notify(QObject *receiver, QEvent *event)
 	if (event->type() == QEvent::KeyPress)
 	{
 		QKeyEvent *keyEvent = dynamic_cast<QKeyEvent *>(event);
-		if (keyEvent != NULL && keysConversions.contains(keyEvent->key()))
+		if (keyEvent != NULL && mKeyMappings.contains(keyEvent->key()))
 		{
-			int newKey = keysConversions[keyEvent->key()];
+			int newKey = mKeyMappings[keyEvent->key()];
 			*keyEvent = QKeyEvent(QEvent::KeyPress, newKey, Qt::NoModifier);
 		}
 	}

@@ -45,9 +45,9 @@ void PwmTest::performStage(Configurer::Stage const &stage)
 			dynamic_cast<trikControl::ServoMotor *>(mBrick->motor(stage.generatorPort));
 	if (generator == NULL)
 	{
-		mLog->append(tr("Невозможно получить доступ к JE") + stage.generatorPort);
+		mLog->append(tr("Невозможно получить доступ к ") + stage.generatorPort);
 		mLog->append(QString());
-		qDebug() << "Cannot access to JE" + stage.generatorPort;
+		qDebug() << "Cannot access to " + stage.generatorPort;
 		result = fail;
 		return;
 	}
@@ -55,18 +55,18 @@ void PwmTest::performStage(Configurer::Stage const &stage)
 	trikControl::PwmCapture *capture = mBrick->pwmCapture(stage.capturePort);
 	if (capture == NULL)
 	{
-		mLog->append(tr("Невозможно получить доступ к JC") + stage.capturePort);
+		mLog->append(tr("Невозможно получить доступ к ") + stage.capturePort);
 		mLog->append(QString());
-		qDebug() << "Cannot access to JC" + stage.capturePort;
+		qDebug() << "Cannot access to " + stage.capturePort;
 		result = fail;
 		return;
 	}
 
-	MessageBox messageBox(tr("Соедините JE") + stage.generatorPort + tr(" и JC") + stage.capturePort);
+	MessageBox messageBox(tr("Соедините ") + stage.generatorPort + tr(" и ") + stage.capturePort);
 	messageBox.exec();
 
-	mLog->append(tr("Подаём на JE") + stage.generatorPort);
-	mLog->append(tr("Считываем с JC") + stage.capturePort);
+	mLog->append(tr("Подаём на ") + stage.generatorPort);
+	mLog->append(tr("Считываем с ") + stage.capturePort);
 	mLog->append(QString());
 
 	foreach (int const power, mPowerValues)
@@ -87,7 +87,7 @@ void PwmTest::performStage(Configurer::Stage const &stage)
 		mLog->append(tr("ширина импульса ") + QString::number(inputDuty) + "%");
 
 		if (inputFrequency[0] != outputFrequency || inputFrequency[0] != inputFrequency[1]
-				|| inputFrequency[1] != inputFrequency[2] || inputDuty != outputDuty)
+				|| inputFrequency[1] != inputFrequency[2] /* || inputDuty != outputDuty */ )
 		{
 			result = fail;
 			mLog->append(tr("Ошибка!"));

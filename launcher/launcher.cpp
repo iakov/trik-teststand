@@ -89,13 +89,13 @@ void Launcher::keyPressEvent(QKeyEvent *event)
 		{
 			switch (event->key())
 			{
-				case Qt::Key_Enter:
+				case Qt::Key_Return:
 				{
 					LogPrinter logPrinter(mLogs[mTable.item(mTable.currentRow(), 0)->text()]);
 					logPrinter.exec();
 					break;
 				}
-				case Qt::Key_Meta:
+				case Qt::Key_Left:
 				{
 					setState(inProcess);
 					performTest(mTable.item(mTable.currentRow(), 0)->text());
@@ -161,7 +161,7 @@ void Launcher::setState(Launcher::State state)
 		}
 		case finished:
 		{
-			mBottomButtonsLabels[0].setText(tr("Повторить"));
+			mTopButtonsLabels[0].setText(tr("Повторить"));
 			mBottomButtonsLabels[2].setText(tr("Журнал"));
 			break;
 		}
