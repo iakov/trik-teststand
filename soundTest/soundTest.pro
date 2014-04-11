@@ -39,3 +39,4 @@ SOURCES += \
 HEADERS += \
 		soundTest.h
 
+QMAKE_POST_LINK = "cp -f test.wav $$DESTDIR"
