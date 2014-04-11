@@ -35,11 +35,13 @@ DEFINES += TRIKTESTCOMMON_LIBRARY
 SOURCES += \
 	usbCommunicator.cpp \
 	yesNoBox.cpp \
-	messageBox.cpp
+	messageBox.cpp \
+	gpioPort.cpp
 
 HEADERS += \
 	usbCommunicator.h \
 	yesNoBox.h \
 	testInterface.h \
-	messageBox.h
+	messageBox.h \
+	gpioPort.h
 
