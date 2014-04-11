@@ -29,5 +29,6 @@ SUBDIRS = \
 	pwmTest \
 	soundTest \
 	usbConnectTest \
-	usbTest
+	usbTest \
+    gpioTest
 

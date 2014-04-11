@@ -14,8 +14,12 @@
 
 #include "gpioPort.h"
 
-GpioPort::GpioPort(const QString &path, QObject *parent)
+#include <QtCore/QDebug>
+#include <QtCore/QByteArray>
+
+GpioPort::GpioPort(int number, const QString &path, QObject *parent)
 	: QObject(parent)
+	, mNumber(number)
 	, mDirectionFile(path + "direction")
 	, mValueFile(path + "value")
 {
@@ -29,6 +33,11 @@ GpioPort::~GpioPort()
 	mDirectionFile.close();
 }
 
+int GpioPort::number() const
+{
+	return mNumber;
+}
+
 void GpioPort::setValue(int value)
 {
 	mDirectionFile.write("out");
@@ -37,7 +46,7 @@ void GpioPort::setValue(int value)
 	if (!mValueFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Unbuffered | QIODevice::Text)) {
 		qDebug() << "Can't open " << mValueFile.fileName();
 	} else {
-		mValueFile.write(QString::number(value));
+		mValueFile.write(QByteArray::number(value));
 		mValueFile.close();
 	}
 }

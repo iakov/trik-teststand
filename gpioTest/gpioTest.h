@@ -15,23 +15,23 @@
 #pragma once
 
 #include <QtCore/QObject>
-#include <QtCore/QString>
-#include <QtCore/QFile>
 
-class GpioPort : public QObject
+#include "testInterface.h"
+#include "gpioPort.h"
+
+class GpioTest
+		: public QObject
+		, public TestInterface
 {
 	Q_OBJECT
+	Q_INTERFACES(TestInterface)
 
 public:
-	explicit GpioPort(int number, QString const &path, QObject *parent = 0);
-	~GpioPort();
-	int number() const;
-	void setValue(int value);
-	int getValue();
+	TestInterface::Result run(trikControl::Brick &, QStringList &log);
 
 private:
-	int const mNumber;
-	QFile mDirectionFile;
-	QFile mValueFile;
-};
+	void testCase(GpioPort &outputPort, GpioPort &inputPort, int value);
 
+	QStringList *mLog;
+	TestInterface::Result result;
+};
