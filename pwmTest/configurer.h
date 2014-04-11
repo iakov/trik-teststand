@@ -31,13 +31,19 @@ public:
 
 	QList<Stage> stages();
 
-	QList<int> powerValues();
+	struct Value {
+		int frequency;
+		int duty;
+	};
+
+	QList<Value> values();
 
 private:
 	QDomDocument config;
 	QList<Stage> mStages;
-	QList<int> mPowerValues;
+
+	QList<Value> mValues;
 
 	void initStages();
-	void initPowerValues();
+	void initValues();
 };

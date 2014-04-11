@@ -43,7 +43,8 @@ private:
 	trikControl::Brick *mBrick;
 	QStringList *mLog;
 	QList<Configurer::Stage> mStages;
-	QList<int> mPowerValues;
+
+	QList<Configurer::Value> mValues;
 	TestInterface::Result result;
 
 	QHash<QString, GeneratorFiles> mGeneratorFiles;

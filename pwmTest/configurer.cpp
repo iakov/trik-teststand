@@ -36,7 +36,7 @@ Configurer::Configurer()
 	file.close();
 
 	initStages();
-	initPowerValues();
+	initValues();
 }
 
 QList<Configurer::Stage> Configurer::stages()
@@ -44,9 +44,9 @@ QList<Configurer::Stage> Configurer::stages()
 	return mStages;
 }
 
-QList<int> Configurer::powerValues()
+QList<Configurer::Value> Configurer::values()
 {
-	return mPowerValues;
+	return mValues;
 }
 
 void Configurer::initStages()
@@ -75,11 +75,11 @@ void Configurer::initStages()
 	}
 }
 
-void Configurer::initPowerValues()
+void Configurer::initValues()
 {
 	QDomElement const root = config.documentElement();
 
-	QDomElement const stages = root.elementsByTagName("powerValues").at(0).toElement();
+	QDomElement const stages = root.elementsByTagName("values").at(0).toElement();
 	for (QDomNode child = stages.firstChild()
 			; !child.isNull()
 			; child = child.nextSibling())
@@ -89,12 +89,14 @@ void Configurer::initPowerValues()
 		}
 
 		QDomElement const childElement = child.toElement();
-		if (childElement.nodeName() != "powerValue") {
-			qDebug() << "Malformed <powerValues> tag";
+		if (childElement.nodeName() != "value") {
+			qDebug() << "Malformed <values> tag";
 			throw "pwmTest.xml parsing failed";
 		}
 
-		int value = childElement.attribute("value").toInt();
-		mPowerValues.append(value);
+		Value value;
+		value.frequency = childElement.attribute("frequency").toInt();
+		value.duty = childElement.attribute("duty").toInt();
+		mValues.append(value);
 	}
 }

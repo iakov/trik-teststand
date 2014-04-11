@@ -5,13 +5,9 @@
 		<stage generatorPort="JE3" capturePort="JC3"/>
 	</stages>
 
-	<!--
-	It is not power values anymore! It is frequencies.
-	We should rename it and also add duties here.
-	-->
-	<powerValues>
-		<powerValue value="25"/>
-		<powerValue value="50"/>
-		<powerValue value="75"/>
-	</powerValues>
+	<values>
+		<value frequency="25" duty="50"/>
+		<value frequency="50" duty="50"/>
+		<value frequency="75" duty="50"/>
+	</values>
 </pwmTest>

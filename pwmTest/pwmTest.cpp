@@ -42,7 +42,7 @@ TestInterface::Result PwmTest::run(trikControl::Brick &brick, QStringList &log)
 
 	Configurer configurer;
 	mStages = configurer.stages();
-	mPowerValues = configurer.powerValues();
+	mValues = configurer.values();
 
 	result = TestInterface::success;
 
@@ -85,12 +85,12 @@ void PwmTest::performStage(Configurer::Stage const &stage)
 	mLog->append(tr("Считываем с ") + stage.capturePort);
 	mLog->append(QString());
 
-	foreach (int const power, mPowerValues)
+	foreach (Configurer::Value const &value, mValues)
 	{
-		int outputFrequency = power;
-		int outputDuty = 50;
+		int outputFrequency = value.frequency;
+		int outputDuty = value.duty;
 
-		generator.setFrequency(power);
+		generator.setFrequency(outputFrequency);
 		generator.setDuty(outputDuty);
 
 		mLog->append(tr("На выходе:"));
