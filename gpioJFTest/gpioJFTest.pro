@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License. */
 
-TARGET = $$qtLibraryTarget(gpioTest)
+TARGET = $$qtLibraryTarget(gpioJFTest)
 TEMPLATE = lib
 CONFIG += plugin
 INCLUDEPATH += ../common
@@ -31,8 +31,8 @@ MOC_DIR = .build/$$CONFIGURATION/moc
 LIBS += -L../build/$$CONFIGURATION \
 	-ltrikTestCommon
 
-DEFINES += GPIOTEST_LIBRARY
+DEFINES += GPIOJFTEST_LIBRARY
 
-SOURCES += gpioTest.cpp
+SOURCES += gpioJFTest.cpp
 
-HEADERS += gpioTest.h
+HEADERS += gpioJFTest.h

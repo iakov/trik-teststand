@@ -12,9 +12,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. */
 
-#include "gpioTest.h"
+#include "gpioJFTest.h"
 
-TestInterface::Result GpioTest::run(trikControl::Brick &, QStringList &log)
+TestInterface::Result GpioJFTest::run(trikControl::Brick &, QStringList &log)
 {
 	mLog = &log;
 	result = TestInterface::success;
@@ -33,7 +33,7 @@ TestInterface::Result GpioTest::run(trikControl::Brick &, QStringList &log)
 	return result;
 }
 
-void GpioTest::testCase(GpioPort &outputPort, GpioPort &inputPort, int value)
+void GpioJFTest::testCase(GpioPort &outputPort, GpioPort &inputPort, int value)
 {
 	mLog->append(tr("Пишем в порт ")
 			+ QString::number(outputPort.number())
@@ -52,4 +52,4 @@ void GpioTest::testCase(GpioPort &outputPort, GpioPort &inputPort, int value)
 	mLog->append(QString());
 }
 
-Q_EXPORT_PLUGIN2(trikTest, GpioTest)
+Q_EXPORT_PLUGIN2(trikTest, GpioJFTest)

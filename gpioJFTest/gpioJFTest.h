@@ -19,7 +19,7 @@
 #include "testInterface.h"
 #include "gpioPort.h"
 
-class GpioTest
+class GpioJFTest
 		: public QObject
 		, public TestInterface
 {

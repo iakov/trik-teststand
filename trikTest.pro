@@ -30,5 +30,5 @@ SUBDIRS = \
 	soundTest \
 	usbConnectTest \
 	usbTest \
-    gpioTest
+	gpioJFTest
 
