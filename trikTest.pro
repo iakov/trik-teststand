@@ -31,5 +31,6 @@ SUBDIRS = \
 	usbConnectTest \
 	usbTest \
 	gpioJFTest \
-    gpioJDTest
+    gpioJDTest \
+    mspTest
 
