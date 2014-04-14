@@ -11,6 +11,7 @@
 		<test name="Interface Test" file="libinterfaceTest.so" />
 		<test name="Connect Test" file="libconnectTest.so" />
 		<test name="I2C Test" file="libi2cTest.so" />
-		<test name="GPIO Test" file="libgpioTest.so" />
+		<test name="GPIO JF Test" file="libgpioJFTest.so" />
+		<test name="GPIO JD Test" file="libgpioJDTest.so" />
 	</tests>
 </trikTest>
