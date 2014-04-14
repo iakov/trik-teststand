@@ -17,7 +17,7 @@
 TestInterface::Result GpioTest::run(trikControl::Brick &, QStringList &log)
 {
 	mLog = &log;
-	result = TestInterface::fail;
+	result = TestInterface::success;
 
 	int const A1_number = 36;
 	int const A2_number = 37;
