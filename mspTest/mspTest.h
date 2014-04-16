@@ -33,7 +33,8 @@ public:
 	TestInterface::Result run(trikControl::Brick &brick, QStringList &log);
 
 private:
-	void testCase(QString const &motorPort, QString const &encoderPort);
+	TestInterface::Result loadFirmware();
+	TestInterface::Result testCase(QString const &motorPort, QString const &encoderPort);
 
 	trikControl::Brick *mBrick;
 	QStringList *mLog;

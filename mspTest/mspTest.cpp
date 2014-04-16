@@ -14,11 +14,17 @@
 
 #include "mspTest.h"
 
-#include <math.h>
+#include <QtCore/QList>
+#include <QtCore/QMap>
+
 #include <stdlib.h>
+#include <math.h>
 
 #include <trikControl/motor.h>
 #include <trikControl/encoder.h>
+
+#include "i2cCommunicator.h"
+#include "usbCommunicator.h"
 
 #define FIRMWARE_PATH "/home/root/mspdev.txt"
 
@@ -30,29 +36,73 @@ TestInterface::Result MspTest::run(trikControl::Brick &brick, QStringList &log)
 	mBrick = &brick;
 	mLog = &log;
 
-	system("mspflasher -o " FIRMWARE_PATH);
-	mResult = TestInterface::success;
-	testCase("JB1", "JM1");
-	testCase("JB2", "JM2");
-	testCase("JB3", "JM3");
-	testCase("JB4", "JM4");
-	return mResult;
+	if (loadFirmware() == TestInterface::fail) {
+		return TestInterface::fail;
+	}
+
+	if (testCase("JB1", "JM1") == TestInterface::fail) {
+		return TestInterface::fail;
+	}
+
+	if (testCase("JB2", "JM2") == TestInterface::fail) {
+		return TestInterface::fail;
+	}
+
+	if (testCase("JB3", "JM3") == TestInterface::fail) {
+		return TestInterface::fail;
+	}
+
+	if (testCase("JB4", "JM4") == TestInterface::fail) {
+		return TestInterface::fail;
+	}
+
+	return TestInterface::success;
 }
 
-void MspTest::testCase(QString const &motorPort, QString const &encoderPort)
+TestInterface::Result MspTest::loadFirmware()
+{
+	system("mspflasher -o " FIRMWARE_PATH);
+	mLog->append(tr("Произведена прошивка MSP430"));
+
+	UsbCommunicator usbCommunicator;
+	usbCommunicator.scan();
+	QList<UsbCommunicator::Device> usbDevices = usbCommunicator.devices();
+
+	UsbCommunicator::Device mspUsbDevice;
+	mspUsbDevice.vendor = 0x2047;
+	mspUsbDevice.product = 0x0200;
+
+	if (usbDevices.contains(mspUsbDevice)) {
+		mLog->append(tr("MSP430 определяется как USB-устройство - прошивка прошла неверно"));
+		return TestInterface::fail;
+	}
+
+	QMap<int, QString> busFiles;
+	busFiles[2] = "/dev/i2c-2";
+	I2cCommunicator i2cCommunicator(busFiles);
+
+	if (!i2cCommunicator.isOnboard(2, 0x48)) {
+		mLog->append(tr("MSP430 не определяется как I2C-устройство - ошибка"));
+		return TestInterface::fail;
+	}
+
+	return TestInterface::success;
+}
+
+TestInterface::Result MspTest::testCase(QString const &motorPort, QString const &encoderPort)
 {
 	trikControl::Motor *motor = mBrick->motor(motorPort);
 
 	if (motor == NULL) {
 		mLog->append(tr("Не удалось получить доступ к мотору на порту ") + motorPort);
-		return;
+		return TestInterface::fail;
 	}
 
 	trikControl::Encoder *encoder = mBrick->encoder(encoderPort);
 
 	if (encoder == NULL) {
 		mLog->append(tr("Не удалось получить доступ к датчику угла поворота на порту ") + encoderPort);
-		return;
+		return TestInterface::fail;
 	}
 
 	encoder->reset();
@@ -72,9 +122,10 @@ void MspTest::testCase(QString const &motorPort, QString const &encoderPort)
 	mLog->append(tr("Считан угол ") + QString::number(angle2) + tr(" рад с ") + encoderPort);
 
 	if (((angle1 < 0 && angle2 > 0) || (angle1 > 0 && angle2 < 0)) && fabs(angle1 + angle2) < maxDifference) {
-	} else {
-		mResult = TestInterface::fail;
+		return TestInterface::success;
 	}
+
+	return TestInterface::fail;
 }
 
 Q_EXPORT_PLUGIN2(trikTest, MspTest)
