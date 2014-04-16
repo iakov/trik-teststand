@@ -28,16 +28,17 @@ DESTDIR=../build/$$CONFIGURATION
 OBJECTS_DIR = .build/$$CONFIGURATION/obj
 MOC_DIR = .build/$$CONFIGURATION/moc
 
+LIBS += -L../build/$$CONFIGURATION \
+	-ltrikTestCommon
+
 DEFINES += I2CTEST_LIBRARY
 
 SOURCES += \
 	i2cTest.cpp \
-	i2cCommunicator.cpp \
 	configurer.cpp
 
 HEADERS += \
 	i2cTest.h \
-	i2cCommunicator.h \
 	configurer.h
 
 OTHER_FILES += \
