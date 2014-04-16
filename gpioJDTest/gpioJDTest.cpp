@@ -14,7 +14,7 @@
 
 #include "gpioJDTest.h"
 
-TestInterface::Result GpioJDTest::run(trikControl::Brick &, QStringList &log)
+TestInterface::Result GpioJDTest::run(trikControl::Brick &, QStringList &)
 {
 	return TestInterface::success;
 }

@@ -15,6 +15,10 @@
 #pragma once
 
 #include <QtCore/QObject>
+#include <QtCore/QString>
+#include <QtCore/QStringList>
+
+#include <trikControl/brick.h>
 
 #include "testInterface.h"
 
@@ -26,10 +30,12 @@ class MspTest
 	Q_INTERFACES(TestInterface)
 
 public:
-	TestInterface::Result run(trikControl::Brick &, QStringList &log);
+	TestInterface::Result run(trikControl::Brick &brick, QStringList &log);
 
 private:
-	void testCase(int JBAddress, int JMAddress);
+	void testCase(QString const &motorPort, QString const &encoderPort);
 
-	TestInterface::Result result;
+	trikControl::Brick *mBrick;
+	QStringList *mLog;
+	TestInterface::Result mResult;
 };

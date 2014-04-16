@@ -14,33 +14,67 @@
 
 #include "mspTest.h"
 
-#include <stdio.h>
+#include <math.h>
 #include <stdlib.h>
 
+#include <trikControl/motor.h>
+#include <trikControl/encoder.h>
+
 #define FIRMWARE_PATH "/home/root/mspdev.txt"
-#define JB1 0x30
-#define JB2 0x31
-#define JB3 0x32
-#define JB4 0x33
-#define JM1 0x14
-#define JM2 0x15
-#define JM3 0x16
-#define JM4 0x17
 
-TestInterface::Result MspTest::run(trikControl::Brick &, QStringList &log)
+static int const delay = 500;
+static int const maxDifference = 100;
+
+TestInterface::Result MspTest::run(trikControl::Brick &brick, QStringList &log)
 {
+	mBrick = &brick;
+	mLog = &log;
+
 	system("mspflasher -o " FIRMWARE_PATH);
-	result = TestInterface::success;
-	testCase(JB1, JM1);
-	testCase(JB2, JM2);
-	testCase(JB3, JM3);
-	testCase(JB4, JM4);
-	return result;
+	mResult = TestInterface::success;
+	testCase("JB1", "JM1");
+	testCase("JB2", "JM2");
+	testCase("JB3", "JM3");
+	testCase("JB4", "JM4");
+	return mResult;
 }
 
-void MspTest::testCase(int JBAddress, int JMAddress)
+void MspTest::testCase(QString const &motorPort, QString const &encoderPort)
 {
-	char *cmd;
+	trikControl::Motor *motor = mBrick->motor(motorPort);
 
-	system("i2ctest -y 2 0x48 0x10 0x1000 w");
+	if (motor == NULL) {
+		mLog->append(tr("Не удалось получить доступ к мотору на порту ") + motorPort);
+		return;
+	}
+
+	trikControl::Encoder *encoder = mBrick->encoder(encoderPort);
+
+	if (encoder == NULL) {
+		mLog->append(tr("Не удалось получить доступ к датчику угла поворота на порту ") + encoderPort);
+		return;
+	}
+
+	encoder->reset();
+	motor->setPower(100);
+	mLog->append(tr("Подана мощность +100% на мотор ") + motorPort);
+	mBrick->wait(delay);
+	motor->powerOff();
+	float const angle1 = encoder->read();
+	mLog->append(tr("Считан угол ") + QString::number(angle1) + tr(" рад с ") + encoderPort);
+
+	encoder->reset();
+	motor->setPower(-100);
+	mLog->append(tr("Подана мощность -100% на мотор ") + motorPort);
+	mBrick->wait(delay);
+	motor->powerOff();
+	float const angle2 = encoder->read();
+	mLog->append(tr("Считан угол ") + QString::number(angle2) + tr(" рад с ") + encoderPort);
+
+	if (((angle1 < 0 && angle2 > 0) || (angle1 > 0 && angle2 < 0)) && fabs(angle1 + angle2) < maxDifference) {
+	} else {
+		mResult = TestInterface::fail;
+	}
 }
+
+Q_EXPORT_PLUGIN2(trikTest, MspTest)

@@ -27,5 +27,5 @@ class GpioJDTest
 	Q_INTERFACES(TestInterface)
 
 public:
-	TestInterface::Result run(trikControl::Brick &, QStringList &log);
+	TestInterface::Result run(trikControl::Brick &, QStringList &);
 };
