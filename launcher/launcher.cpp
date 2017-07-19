@@ -164,6 +164,8 @@ void Launcher::setState(Launcher::State state)
 		{
 			mTopButtonsLabels[0].setText(tr("Повторить"));
 			mBottomButtonsLabels[2].setText(tr("Журнал"));
+			mTable.repaint();
+			TrikTestApplication::activeWindow()->repaint();
 			break;
 		}
 	}
@@ -203,4 +205,6 @@ void Launcher::setTestState(QString const &name, Launcher::TestState state)
 	}
 
 	TrikTestApplication::processEvents();
+	mTable.repaint();
+	TrikTestApplication::activeWindow()->repaint();
 }

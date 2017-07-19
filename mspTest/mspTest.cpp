@@ -19,14 +19,14 @@
 
 #include <stdlib.h>
 #include <math.h>
-
+#include <errno.h>
 #include <trikControl/motor.h>
 #include <trikControl/encoder.h>
 
 #include "i2cCommunicator.h"
 #include "usbCommunicator.h"
 
-#define FIRMWARE_PATH "/home/root/mspdev.txt"
+#define FIRMWARE_PATH " /etc/msp-v6-latest.txt"
 
 static int const delay = 500;
 static int const maxDifference = 100;
@@ -40,19 +40,19 @@ TestInterface::Result MspTest::run(trikControl::Brick &brick, QStringList &log)
 		return TestInterface::fail;
 	}
 
-	if (testCase("JB1", "JM1") == TestInterface::fail) {
+	if (testCase("JM1", "JB1") == TestInterface::fail) {
 		return TestInterface::fail;
 	}
 
-	if (testCase("JB2", "JM2") == TestInterface::fail) {
+	if (testCase("JM2", "JB2") == TestInterface::fail) {
 		return TestInterface::fail;
 	}
 
-	if (testCase("JB3", "JM3") == TestInterface::fail) {
+	if (testCase("JM3", "JB3") == TestInterface::fail) {
 		return TestInterface::fail;
 	}
 
-	if (testCase("JB4", "JM4") == TestInterface::fail) {
+	if (testCase("JM4", "JB4") == TestInterface::fail) {
 		return TestInterface::fail;
 	}
 
@@ -61,6 +61,9 @@ TestInterface::Result MspTest::run(trikControl::Brick &brick, QStringList &log)
 
 TestInterface::Result MspTest::loadFirmware()
 {
+	if (true) {
+		return TestInterface::success;
+	}
 	system("mspflasher -o " FIRMWARE_PATH);
 	mLog->append(tr("Произведена прошивка MSP430"));
 
@@ -86,7 +89,6 @@ TestInterface::Result MspTest::loadFirmware()
 		return TestInterface::fail;
 	}
 
-	return TestInterface::success;
 }
 
 TestInterface::Result MspTest::testCase(QString const &motorPort, QString const &encoderPort)
@@ -106,6 +108,7 @@ TestInterface::Result MspTest::testCase(QString const &motorPort, QString const 
 	}
 
 	encoder->reset();
+	mBrick->wait(delay);
 	motor->setPower(100);
 	mLog->append(tr("Подана мощность +100% на мотор ") + motorPort);
 	mBrick->wait(delay);
@@ -114,18 +117,20 @@ TestInterface::Result MspTest::testCase(QString const &motorPort, QString const 
 	mLog->append(tr("Считан угол ") + QString::number(angle1) + tr(" рад с ") + encoderPort);
 
 	encoder->reset();
+	mBrick->wait(delay);
 	motor->setPower(-100);
 	mLog->append(tr("Подана мощность -100% на мотор ") + motorPort);
 	mBrick->wait(delay);
 	motor->powerOff();
 	float const angle2 = encoder->read();
 	mLog->append(tr("Считан угол ") + QString::number(angle2) + tr(" рад с ") + encoderPort);
-
-	if (((angle1 < 0 && angle2 > 0) || (angle1 > 0 && angle2 < 0)) && fabs(angle1 + angle2) < maxDifference) {
+	mLog->append(tr("fabs(angle1 + angle2) = ")+ QString::number(fabs(angle1 + angle2) ));
+	if (((angle1 < 0 && angle2 > 0) || (angle1 > 0 && angle2 < 0)) && fabs(fabs(angle1) - fabs(angle2)) < maxDifference) {
+		
 		return TestInterface::success;
 	}
-
 	return TestInterface::fail;
 }
 
 Q_EXPORT_PLUGIN2(trikTest, MspTest)
+

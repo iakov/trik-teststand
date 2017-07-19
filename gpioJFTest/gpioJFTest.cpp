@@ -19,16 +19,16 @@ TestInterface::Result GpioJFTest::run(trikControl::Brick &, QStringList &log)
 	mLog = &log;
 	result = TestInterface::success;
 
-	int const A1_number = 36;
-	int const A2_number = 37;
+	int const A1_number = 8;
+	int const A2_number = 23;
 
 	GpioPort A1(A1_number, "/sys/class/gpio/gpio" + QString::number(A1_number) + "/");
 	GpioPort A2(A2_number, "/sys/class/gpio/gpio" + QString::number(A2_number) + "/");
 
 	testCase(A1, A2, 0);
-	testCase(A1, A2, 1);
+//	testCase(A1, A2, 1);
 	testCase(A2, A1, 0);
-	testCase(A2, A1, 1);
+//	testCase(A2, A1, 1);
 
 	return result;
 }

@@ -21,7 +21,6 @@ SUBDIRS = \
 	launcher \
 	accelerometerTest \
 	buttonsTest \
-	connectTest \
 	gyroscopeTest \
 	i2cTest \
 	interfaceTest \
@@ -32,5 +31,7 @@ SUBDIRS = \
 	usbTest \
 	gpioJFTest \
     gpioJDTest \
-    mspTest
-
+    mspTest \
+    jvp1Test \
+    jvp2Test \
+    spiFlash
