@@ -14,7 +14,7 @@
 
 #pragma once
 
-#include <QtGui/QApplication>
+#include <QApplication>
 #include <QtCore/QMap>
 
 class TrikTestApplication : public QApplication

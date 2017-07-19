@@ -11,24 +11,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-#QT += core gui
-CONFIG += plugin
-INCLUDEPATH += ../common
+include(../plugin.pri)
 TARGET = $$qtLibraryTarget(buttonsTest)
-TEMPLATE = lib
-
-CONFIG(debug, debug | release) {
-	CONFIGURATION = debu
-	CONFIGURATION_SUFFIX = d
-} else {
-	CONFIGURATION = release
-}
-
-DESTDIR=../build/$$CONFIGURATION
-
-OBJECTS_DIR = .build/$$CONFIGURATION/obj
-MOC_DIR = .build/$$CONFIGURATION/moc
 
 DEFINES += BUTTONSTEST_LIBRARY
 

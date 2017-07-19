@@ -14,12 +14,6 @@
 
 #pragma once
 
-#include <QtCore/QObject>
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-
-#include <trikControl/brick.h>
-
 #include "testInterface.h"
 
 class jvp1Test
@@ -28,9 +22,10 @@ class jvp1Test
 {
 	Q_OBJECT
 	Q_INTERFACES(TestInterface)
+	Q_PLUGIN_METADATA(IID "com.trikset.teststand.vp1")
 
 public:
-	TestInterface::Result run(trikControl::Brick &brick, QStringList &log);
+	TestInterface::Result run(trikControl::BrickInterface &brick, QStringList &log);
 
 private:
 	TestInterface::Result captureVideo();

@@ -14,10 +14,7 @@
 
 #pragma once
 
-#include <QtGui/QWidget>
-#include <QtGui/QLabel>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QHBoxLayout>
+#include <QtWidgets>
 #include <QtCore/QEventLoop>
 #include <QtCore/QString>
 

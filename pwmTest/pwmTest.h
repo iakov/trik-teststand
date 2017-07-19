@@ -14,11 +14,6 @@
 
 #pragma once
 
-#include <QtCore/QObject>
-#include <QtCore/QList>
-#include <QtCore/QHash>
-#include <trikControl/brick.h>
-
 #include "testInterface.h"
 #include "configurer.h"
 
@@ -28,9 +23,9 @@ class PwmTest
 {
 	Q_OBJECT
 	Q_INTERFACES(TestInterface)
-
+	Q_PLUGIN_METADATA(IID "com.trikset.teststand.pwm")
 public:
-	TestInterface::Result run(trikControl::Brick &mBrick, QStringList &mLog);
+	TestInterface::Result run(trikControl::BrickInterface &mBrick, QStringList &mLog);
 
 	struct GeneratorFiles {
 		QString requestFilePath;
@@ -40,7 +35,7 @@ public:
 	};
 
 private:
-	trikControl::Brick *mBrick;
+	trikControl::BrickInterface *mBrick;
 	QStringList *mLog;
 	QList<Configurer::Stage> mStages;
 

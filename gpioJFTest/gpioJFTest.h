@@ -14,8 +14,6 @@
 
 #pragma once
 
-#include <QtCore/QObject>
-
 #include "testInterface.h"
 #include "gpioPort.h"
 
@@ -25,9 +23,10 @@ class GpioJFTest
 {
 	Q_OBJECT
 	Q_INTERFACES(TestInterface)
+	Q_PLUGIN_METADATA(IID "com.trikset.teststand.jf")
 
 public:
-	TestInterface::Result run(trikControl::Brick &, QStringList &log);
+	TestInterface::Result run(trikControl::BrickInterface &, QStringList &log);
 
 private:
 	void testCase(GpioPort &outputPort, GpioPort &inputPort, int value);

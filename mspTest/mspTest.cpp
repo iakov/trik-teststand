@@ -14,14 +14,11 @@
 
 #include "mspTest.h"
 
-#include <QtCore/QList>
-#include <QtCore/QMap>
-
 #include <stdlib.h>
 #include <math.h>
 #include <errno.h>
-#include <trikControl/motor.h>
-#include <trikControl/encoder.h>
+#include <trikControl/motorInterface.h>
+#include <trikControl/encoderInterface.h>
 
 #include "i2cCommunicator.h"
 #include "usbCommunicator.h"
@@ -30,8 +27,9 @@
 
 static int const delay = 500;
 static int const maxDifference = 100;
+#define wait msleep
 
-TestInterface::Result MspTest::run(trikControl::Brick &brick, QStringList &log)
+TestInterface::Result MspTest::run(trikControl::BrickInterface &brick, QStringList &log)
 {
 	mBrick = &brick;
 	mLog = &log;
@@ -93,14 +91,14 @@ TestInterface::Result MspTest::loadFirmware()
 
 TestInterface::Result MspTest::testCase(QString const &motorPort, QString const &encoderPort)
 {
-	trikControl::Motor *motor = mBrick->motor(motorPort);
+	auto motor = mBrick->motor(motorPort);
 
 	if (motor == NULL) {
 		mLog->append(tr("Не удалось получить доступ к мотору на порту ") + motorPort);
 		return TestInterface::fail;
 	}
 
-	trikControl::Encoder *encoder = mBrick->encoder(encoderPort);
+	auto encoder = mBrick->encoder(encoderPort);
 
 	if (encoder == NULL) {
 		mLog->append(tr("Не удалось получить доступ к датчику угла поворота на порту ") + encoderPort);
@@ -108,19 +106,19 @@ TestInterface::Result MspTest::testCase(QString const &motorPort, QString const 
 	}
 
 	encoder->reset();
-	mBrick->wait(delay);
+	wait(delay);
 	motor->setPower(100);
 	mLog->append(tr("Подана мощность +100% на мотор ") + motorPort);
-	mBrick->wait(delay);
+	wait(delay);
 	motor->powerOff();
 	float const angle1 = encoder->read();
 	mLog->append(tr("Считан угол ") + QString::number(angle1) + tr(" рад с ") + encoderPort);
 
 	encoder->reset();
-	mBrick->wait(delay);
+	wait(delay);
 	motor->setPower(-100);
 	mLog->append(tr("Подана мощность -100% на мотор ") + motorPort);
-	mBrick->wait(delay);
+	wait(delay);
 	motor->powerOff();
 	float const angle2 = encoder->read();
 	mLog->append(tr("Считан угол ") + QString::number(angle2) + tr(" рад с ") + encoderPort);
@@ -131,6 +129,4 @@ TestInterface::Result MspTest::testCase(QString const &motorPort, QString const 
 	}
 	return TestInterface::fail;
 }
-
-Q_EXPORT_PLUGIN2(trikTest, MspTest)
 

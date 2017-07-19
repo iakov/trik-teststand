@@ -13,14 +13,12 @@
  * limitations under the License. */
 
 #pragma once
-
+#include <QtWidgets>
 #include <QtCore/QStringList>
 #include <QtCore/QtPlugin>
 
-#include <trikControl/brick.h>
+#include <trikControl/brickInterface.h>
 
-//namespace trikTest
-//{
 
 class TestInterface
 {
@@ -33,9 +31,8 @@ public:
 		, fail
 	};
 
-	virtual Result run(trikControl::Brick &brick, QStringList &log) = 0;
+	virtual Result run(trikControl::BrickInterface &brick, QStringList &log) = 0;
 };
 
-//}
 
-Q_DECLARE_INTERFACE(TestInterface, "trikTest.TestInterface")
+Q_DECLARE_INTERFACE(TestInterface, "com.trikset.teststand.TestInterface")

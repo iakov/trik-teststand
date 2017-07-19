@@ -14,9 +14,7 @@
 
 TEMPLATE = app
 
-QT += core gui xml network
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT += core gui xml network widgets
 
 CONFIG(debug, debug | release) {
 	CONFIGURATION = debug
@@ -33,7 +31,7 @@ DESTDIR = ../build/$$CONFIGURATION
 OBJECTS_DIR = .build/$$CONFIGURATION/obj
 MOC_DIR = .build/$$CONFIGURATION/moc
 
-INCLUDEPATH += ../common
+INCLUDEPATH += ../common $$[QT_INSTALL_HEADERS]/../trikRuntime
 
 LIBS += -ltrikControl \
 	-L../build/$$CONFIGURATION \

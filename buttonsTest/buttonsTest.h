@@ -14,10 +14,6 @@
 
 #pragma once
 
-#include <QtGui/QWidget>
-#include <QtGui/QLabel>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QKeyEvent>
 #include <QtCore/QSet>
 #include <QtCore/QMap>
 #include <QtCore/QTimer>
@@ -34,9 +30,9 @@ class ButtonsTest
 {
 	Q_OBJECT
 	Q_INTERFACES(TestInterface)
-
+	Q_PLUGIN_METADATA(IID "com.trikset.teststand.buttons")
 public:
-	TestInterface::Result run(trikControl::Brick &, QStringList &log);
+	TestInterface::Result run(trikControl::BrickInterface &, QStringList &log);
 
 private:
 	QLabel mTopLabel;

@@ -16,16 +16,13 @@
 
 #include "testInterface.h"
 
-#include <QtCore/QObject>
-#include <trikControl/brick.h>
-
 class LedTest
 		: public QObject
 		, public TestInterface
 {
 	Q_OBJECT
 	Q_INTERFACES(TestInterface)
-
+	Q_PLUGIN_METADATA(IID "com.trikset.teststand.led")
 public:
-	TestInterface::Result run(trikControl::Brick &brick, QStringList &log);
+	TestInterface::Result run(trikControl::BrickInterface &brick, QStringList &log);
 };

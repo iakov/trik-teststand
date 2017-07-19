@@ -14,29 +14,24 @@
 
 #pragma once
 
-#include <QtCore/QObject>
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-
-#include <trikControl/brick.h>
-
 #include "testInterface.h"
 
 class MspTest
-		: public QObject
+		: public QThread // for msleep
 		, public TestInterface
 {
 	Q_OBJECT
 	Q_INTERFACES(TestInterface)
+	Q_PLUGIN_METADATA(IID "com.trikset.teststand.msp")
 
 public:
-	TestInterface::Result run(trikControl::Brick &brick, QStringList &log);
+	TestInterface::Result run(trikControl::BrickInterface &brick, QStringList &log);
 
 private:
 	TestInterface::Result loadFirmware();
 	TestInterface::Result testCase(QString const &motorPort, QString const &encoderPort);
 
-	trikControl::Brick *mBrick;
+	trikControl::BrickInterface *mBrick;
 	QStringList *mLog;
 	TestInterface::Result mResult;
 };

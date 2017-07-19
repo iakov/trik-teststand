@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-QT += core gui
+QT += core gui widgets
 
 TARGET = trikTestCommon
 TEMPLATE = lib

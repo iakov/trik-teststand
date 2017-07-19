@@ -11,22 +11,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-CONFIG += plugin
-INCLUDEPATH += ../common
+include(../plugin.pri)
 TARGET = $$qtLibraryTarget(interfaceTest)
-TEMPLATE = lib
-
-CONFIG(debug, debug | release) {
-	CONFIGURATION = debug
-} else {
-	CONFIGURATION = release
-}
-
-DESTDIR=../build/$$CONFIGURATION
-
-OBJECTS_DIR = .build/$$CONFIGURATION/obj
-MOC_DIR = .build/$$CONFIGURATION/moc
 
 DEFINES += INTERFACETEST_LIBRARY
 

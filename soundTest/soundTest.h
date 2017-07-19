@@ -22,7 +22,7 @@ class SoundTest: public QObject, public TestInterface
 {
 	Q_OBJECT
 	Q_INTERFACES(TestInterface)
-
+	Q_PLUGIN_METADATA(IID "com.trikset.teststand.sound")
 public:
-	TestInterface::Result run(trikControl::Brick &brick, QStringList &);
+	TestInterface::Result run(trikControl::BrickInterface &brick, QStringList &);
 };

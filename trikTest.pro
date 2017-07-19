@@ -16,6 +16,8 @@ TEMPLATE = subdirs
 
 CONFIG += ordered
 
+INCLUDE_DIR += $PWD/../runtime/trikControl/include/
+
 SUBDIRS = \
 	common \
 	launcher \

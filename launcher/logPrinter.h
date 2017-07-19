@@ -1,11 +1,8 @@
 #pragma once
 
-#include <QtGui/QWidget>
+#include <QtWidgets>
 #include <QtCore/QStringList>
 #include <QtCore/QEventLoop>
-#include <QtGui/QListWidget>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QLabel>
 
 class LogPrinter : public QWidget
 {

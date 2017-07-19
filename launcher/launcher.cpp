@@ -22,10 +22,13 @@
 #include "trikTestApplication.h"
 #include "logPrinter.h"
 #include "messageBox.h"
+#include <trikControl/brickFactory.h>
+
+using namespace trikControl;
 
 Launcher::Launcher()
 	/* TODO: move TrikControl directory to config file or command line argument */
-	: mBrick(*TrikTestApplication::instance()->thread(), "/home/root/trik/")
+	: mBrick(BrickFactory::create("./system-config.xml", "./model-config.xml", "/home/root/trik/scripts"))
 	, mTable(0, 2)
 	, mState(finished)
 {
@@ -141,7 +144,7 @@ void Launcher::performTest(QString const &name)
 		}
 		else
 		{
-			TestInterface::Result result = test->run(mBrick, mLogs[name]);
+			TestInterface::Result result = test->run(*mBrick, mLogs[name]);
 			setTestState(name, (result == TestInterface::success) ? testSuccess : testFail);
 		}
 	}

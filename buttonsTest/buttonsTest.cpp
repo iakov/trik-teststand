@@ -16,7 +16,7 @@
 
 //using namespace trikTest;
 
-TestInterface::Result ButtonsTest::run(trikControl::Brick &, QStringList &log)
+TestInterface::Result ButtonsTest::run(trikControl::BrickInterface &, QStringList &log)
 {
 	mLog = &log;
 	mDelay = 10;
@@ -77,5 +77,3 @@ void ButtonsTest::timeout()
 	mResult = fail;
 	mEventLoop.quit();
 }
-
-Q_EXPORT_PLUGIN2(trikTest, ButtonsTest)

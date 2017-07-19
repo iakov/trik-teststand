@@ -19,7 +19,7 @@
 #include "messageBox.h"
 #include "usbCommunicator.h"
 
-TestInterface::Result UsbConnectTest::run(trikControl::Brick &, QStringList &)
+TestInterface::Result UsbConnectTest::run(trikControl::BrickInterface &, QStringList &)
 {
 	UsbCommunicator usbCommunicator;
 
@@ -34,5 +34,3 @@ TestInterface::Result UsbConnectTest::run(trikControl::Brick &, QStringList &)
 
 	return (countAfterConnecting > initialCount) ? TestInterface::success : TestInterface::fail;
 }
-
-Q_EXPORT_PLUGIN2(trikTest, UsbConnectTest)

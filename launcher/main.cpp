@@ -14,7 +14,6 @@
 
 #include <QtGui/QFont>
 #include <QtCore/QTextCodec>
-#include <QtGui/QWSServer>
 #include <QtCore/QTimer>
 
 #include "trikTestApplication.h"
@@ -28,13 +27,7 @@ int main(int argc, char *argv[])
 	newFont.setPixelSize(12);
 	a.setFont(newFont);
 
-	QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
-
-	QWSServer *const server = QWSServer::instance();
-	if (server)
-	{
-		server->setCursorVisible(false);
-	}
+	//QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
 	Launcher launcher;
 	launcher.show();

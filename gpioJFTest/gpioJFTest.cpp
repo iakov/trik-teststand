@@ -14,7 +14,7 @@
 
 #include "gpioJFTest.h"
 
-TestInterface::Result GpioJFTest::run(trikControl::Brick &, QStringList &log)
+TestInterface::Result GpioJFTest::run(trikControl::BrickInterface &, QStringList &log)
 {
 	mLog = &log;
 	result = TestInterface::success;
@@ -51,5 +51,3 @@ void GpioJFTest::testCase(GpioPort &outputPort, GpioPort &inputPort, int value)
 
 	mLog->append(QString());
 }
-
-Q_EXPORT_PLUGIN2(trikTest, GpioJFTest)

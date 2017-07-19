@@ -14,20 +14,7 @@
 
 #include "jvp1Test.h"
 
-#include <QtCore/QList>
-#include <QtCore/QMap>
-
-#include <stdlib.h>
-#include <math.h>
-#include <errno.h>
-#include <trikControl/motor.h>
-#include <trikControl/encoder.h>
-
-#include "i2cCommunicator.h"
-#include "usbCommunicator.h"
-
-
-TestInterface::Result jvp1Test::run(trikControl::Brick &brick, QStringList &log)
+TestInterface::Result jvp1Test::run(trikControl::BrickInterface &brick, QStringList &log)
 {
 	mLog = &log;
 	if (captureVideo() == TestInterface::fail) {
@@ -47,6 +34,3 @@ TestInterface::Result jvp1Test::captureVideo()
 
 	return TestInterface::success;
 }
-
-Q_EXPORT_PLUGIN2(trikTest, jvp1Test);
-

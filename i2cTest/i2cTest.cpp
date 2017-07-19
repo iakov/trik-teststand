@@ -21,7 +21,7 @@
 #include "configurer.h"
 #include "i2cCommunicator.h"
 
-TestInterface::Result I2cTest::run(trikControl::Brick &, QStringList &log)
+TestInterface::Result I2cTest::run(trikControl::BrickInterface &, QStringList &log)
 {
 	Configurer configurer;
 	I2cCommunicator i2cCommunicator(configurer.busFiles());
@@ -45,5 +45,3 @@ TestInterface::Result I2cTest::run(trikControl::Brick &, QStringList &log)
 
 	return result;
 }
-
-Q_EXPORT_PLUGIN2(trikTest, I2cTest)

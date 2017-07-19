@@ -14,12 +14,6 @@
 
 #pragma once
 
-#include <QtCore/QObject>
-#include <QtCore/QMap>
-#include <QtCore/QList>
-#include <QtCore/QString>
-#include <libusb-1.0/libusb.h>
-
 #include "testInterface.h"
 #include "usbCommunicator.h"
 
@@ -27,9 +21,10 @@ class UsbTest: public QObject, public TestInterface
 {
 	Q_OBJECT
 	Q_INTERFACES(TestInterface)
+	Q_PLUGIN_METADATA(IID "com.trikset.teststand.usb")
 
 public:
-	TestInterface::Result run(trikControl::Brick &, QStringList &log);
+	TestInterface::Result run(trikControl::BrickInterface &, QStringList &log);
 
 private:
 	QStringList *mLog;

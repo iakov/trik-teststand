@@ -1,9 +1,7 @@
 #pragma once
 
-#include <QtGui/QWidget>
+#include <QtWidgets>
 #include <QtCore/QString>
-#include <QtGui/QLabel>
-#include <QtGui/QVBoxLayout>
 #include <QtCore/QEventLoop>
 
 class MessageBox : public QWidget

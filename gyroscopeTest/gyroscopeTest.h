@@ -14,10 +14,6 @@
 
 #pragma once
 
-#include <QtGui/QWidget>
-#include <QtGui/QListWidget>
-#include <QtGui/QLabel>
-#include <QtGui/QVBoxLayout>
 #include <QtCore/QEventLoop>
 #include <QtCore/QTimer>
 
@@ -28,12 +24,13 @@ class GyroscopeTest : public QWidget, public TestInterface
 {
 	Q_OBJECT
 	Q_INTERFACES(TestInterface)
+	Q_PLUGIN_METADATA(IID "com.trikset.teststand.gyroscope")
 
 public:
-	TestInterface::Result run(trikControl::Brick &brick, QStringList &log);
+	TestInterface::Result run(trikControl::BrickInterface &brick, QStringList &log);
 
 private:
-	trikControl::Sensor3d *mGyroscope;
+	trikControl::GyroSensorInterface *mGyroscope;
 	QStringList *mLog;
 
 	QVBoxLayout mLayout;

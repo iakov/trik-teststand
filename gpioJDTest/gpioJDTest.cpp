@@ -14,9 +14,8 @@
 
 #include "gpioJDTest.h"
 
-TestInterface::Result GpioJDTest::run(trikControl::Brick &, QStringList &)
+TestInterface::Result GpioJDTest::run(trikControl::BrickInterface &, QStringList &)
 {
 	return TestInterface::success;
 }
 
-Q_EXPORT_PLUGIN2(trikTest, GpioJDTest)

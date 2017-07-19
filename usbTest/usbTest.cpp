@@ -17,7 +17,7 @@
 #include "usbCommunicator.h"
 #include "configurer.h"
 
-TestInterface::Result UsbTest::run(trikControl::Brick &, QStringList &log)
+TestInterface::Result UsbTest::run(trikControl::BrickInterface &, QStringList &log)
 {
 	mLog = &log;
 
@@ -67,5 +67,3 @@ void UsbTest::logDevice(const UsbCommunicator::Device &device, bool found)
 
 	mLog->append(QString());
 }
-
-Q_EXPORT_PLUGIN2(trikTest, UsbTest)

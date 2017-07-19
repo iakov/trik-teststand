@@ -20,7 +20,7 @@
 #include "messageBox.h"
 #include "yesNoBox.h"
 
-TestInterface::Result GyroscopeTest::run(trikControl::Brick &brick, QStringList &log)
+TestInterface::Result GyroscopeTest::run(trikControl::BrickInterface &brick, QStringList &log)
 {
 	mGyroscope = brick.gyroscope();
 	mLog = &log;
@@ -69,5 +69,3 @@ void GyroscopeTest::printReading()
 	mReadingsList.setCurrentRow(mReadingsList.count() - 1);
 	mLog->append(readingString);
 }
-
-Q_EXPORT_PLUGIN2(trikTest, GyroscopeTest)

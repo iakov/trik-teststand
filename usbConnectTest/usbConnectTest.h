@@ -14,15 +14,14 @@
 
 #pragma once
 
-#include <QtCore/QObject>
-
 #include "testInterface.h"
 
 class UsbConnectTest: public QObject, public TestInterface
 {
 	Q_OBJECT
 	Q_INTERFACES(TestInterface)
+	Q_PLUGIN_METADATA(IID "com.trikset.teststand.usbcon")
 
 public:
-	TestInterface::Result run(trikControl::Brick &, QStringList &);
+	TestInterface::Result run(trikControl::BrickInterface &, QStringList &);
 };

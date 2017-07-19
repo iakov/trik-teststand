@@ -14,13 +14,10 @@
 
 #pragma once
 
-#include <QtGui/QWidget>
-#include <QtGui/QListWidget>
-#include <QtGui/QLabel>
-#include <QtGui/QVBoxLayout>
+#include <QtWidgets>
 #include <QtCore/QEventLoop>
 #include <QtCore/QTimer>
-
+#include <trikControl/brickInterface.h>
 #include "testInterface.h"
 #include "messageBox.h"
 
@@ -28,12 +25,13 @@ class AccelerometerTest : public QWidget, public TestInterface
 {
 	Q_OBJECT
 	Q_INTERFACES(TestInterface)
+	Q_PLUGIN_METADATA(IID "com.trikset.teststand.accelerometer")
 
 public:
-	TestInterface::Result run(trikControl::Brick &brick, QStringList &log);
+	TestInterface::Result run(trikControl::BrickInterface &brick, QStringList &log);
 
 private:
-	trikControl::Sensor3d *mAccelerometer;
+	trikControl::VectorSensorInterface *mAccelerometer;
 	QStringList *mLog;
 
 	QVBoxLayout mLayout;

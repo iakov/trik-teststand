@@ -14,11 +14,11 @@
 
 #include "ledTest.h"
 
-#include <trikControl/led.h>
+#include <trikControl/ledInterface.h>
 
 #include "yesNoBox.h"
 
-TestInterface::Result LedTest::run(trikControl::Brick &brick, QStringList &log)
+TestInterface::Result LedTest::run(trikControl::BrickInterface &brick, QStringList &log)
 {
 	TestInterface::Result result = success;
 
@@ -50,5 +50,3 @@ TestInterface::Result LedTest::run(trikControl::Brick &brick, QStringList &log)
 
 	return result;
 }
-
-Q_EXPORT_PLUGIN2(trikTest, LedTest)

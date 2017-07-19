@@ -20,7 +20,7 @@
 #include "messageBox.h"
 #include "yesNoBox.h"
 
-TestInterface::Result AccelerometerTest::run(trikControl::Brick &brick, QStringList &log)
+TestInterface::Result AccelerometerTest::run(trikControl::BrickInterface &brick, QStringList &log)
 {
 	mAccelerometer = brick.accelerometer();
 	mLog = &log;
@@ -69,5 +69,3 @@ void AccelerometerTest::printReading()
 	mReadingsList.setCurrentRow(mReadingsList.count() - 1);
 	mLog->append(readingString);
 }
-
-Q_EXPORT_PLUGIN2(trikTest, AccelerometerTest)

@@ -15,12 +15,12 @@
 #include "pwmTest.h"
 
 #include <QtCore/QDebug>
-#include <trikControl/pwmCapture.h>
+#include <trikControl/pwmCaptureInterface.h>
 
 #include "pwmGenerator.h"
 #include "messageBox.h"
 
-TestInterface::Result PwmTest::run(trikControl::Brick &brick, QStringList &log)
+TestInterface::Result PwmTest::run(trikControl::BrickInterface &brick, QStringList &log)
 {
 	mGeneratorFiles["JE1"].requestFilePath = "/sys/class/pwm/ehrpwm.1:1/request";
 	mGeneratorFiles["JE1"].runFilePath = "/sys/class/pwm/ehrpwm.1:1/run";
@@ -68,7 +68,7 @@ void PwmTest::performStage(Configurer::Stage const &stage)
 
 	PwmGenerator generator(generatorFiles);
 
-	trikControl::PwmCapture *capture = mBrick->pwmCapture(stage.capturePort);
+	trikControl::PwmCaptureInterface *capture = mBrick->pwmCapture(stage.capturePort);
 	if (capture == NULL)
 	{
 		mLog->append(tr("Невозможно получить доступ к ") + stage.capturePort);
@@ -116,5 +116,3 @@ void PwmTest::performStage(Configurer::Stage const &stage)
 		mLog->append(QString());
 	}
 }
-
-Q_EXPORT_PLUGIN2(trikTest, PwmTest)

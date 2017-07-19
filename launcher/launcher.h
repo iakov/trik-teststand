@@ -14,20 +14,14 @@
 
 #pragma once
 
-#include <QtGui/QWidget>
+#include <QtWidgets>
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QList>
 #include <QtCore/QMap>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QLabel>
-#include <QtGui/QTableWidget>
-#include <QtGui/QStandardItemModel>
 #include <QtCore/QModelIndex>
-#include <QtGui/QKeyEvent>
 
-#include <trikControl/brick.h>
+#include <trikControl/brickInterface.h>
 
 #include "configurer.h"
 
@@ -42,7 +36,7 @@ protected:
 	void keyPressEvent(QKeyEvent *event);
 
 private:
-	trikControl::Brick mBrick;
+	QScopedPointer<trikControl::BrickInterface> mBrick;
 	QList<QString> mTests;
 	QMap<QString, QString> mFiles;
 	QMap<QString, QStringList> mLogs;

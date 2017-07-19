@@ -18,7 +18,7 @@
 #include <QtCore/QList>
 #include <QtCore/QRegExp>
 
-TestInterface::Result InterfaceTest::run(trikControl::Brick &, QStringList &log)
+TestInterface::Result InterfaceTest::run(trikControl::BrickInterface &, QStringList &log)
 {
 	QRegExp regExp("wlan[0-9]");
 
@@ -40,5 +40,3 @@ TestInterface::Result InterfaceTest::run(trikControl::Brick &, QStringList &log)
 
 	return result;
 }
-
-Q_EXPORT_PLUGIN2(trikTest, InterfaceTest)

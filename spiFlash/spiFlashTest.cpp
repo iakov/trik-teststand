@@ -14,21 +14,7 @@
 
 #include "spiFlashTest.h"
 
-#include <QtCore/QList>
-#include <QtCore/QMap>
-
-#include <stdlib.h>
-#include <math.h>
-#include <errno.h>
-#include <trikControl/motor.h>
-#include <trikControl/encoder.h>
-
-#include "i2cCommunicator.h"
-#include "usbCommunicator.h"
-
-#define FIRMWARE_PATH " /etc/msp-v6-latest.txt"
-
-TestInterface::Result SpiFlashTest::run(trikControl::Brick &brick, QStringList &log)
+TestInterface::Result SpiFlashTest::run(trikControl::BrickInterface &brick, QStringList &log)
 {
 	mLog = &log;
 	if (flash() == TestInterface::fail) {
@@ -48,6 +34,3 @@ TestInterface::Result SpiFlashTest::flash()
 
 	return TestInterface::success;
 }
-
-Q_EXPORT_PLUGIN2(trikTest, SpiFlashTest);
-

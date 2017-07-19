@@ -25,8 +25,9 @@ class ConnectTest: public QObject, public TestInterface
 	Q_OBJECT
 	Q_INTERFACES(TestInterface)
 
+
 public:
-	TestInterface::Result run(trikControl::Brick &, QStringList &log);
+	TestInterface::Result run(trikControl::BrickInterface &, QStringList &log);
 
 private:
 	trikWiFi::TrikWiFi *mWiFi;
