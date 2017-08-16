@@ -19,22 +19,8 @@
 TrikTestApplication::TrikTestApplication(int argc, char **argv)
 	: QApplication(argc, argv)
 {
-	mKeyMappings[Qt::Key_Up] = Qt::Key_Left;
-	mKeyMappings[Qt::Key_Right] = Qt::Key_Up;
-	mKeyMappings[Qt::Key_Down] = Qt::Key_Right;
-	mKeyMappings[Qt::Key_Left] = Qt::Key_Down;
-}
-
-bool TrikTestApplication::notify(QObject *receiver, QEvent *event)
-{
-	if (event->type() == QEvent::KeyPress)
-	{
-		QKeyEvent *keyEvent = dynamic_cast<QKeyEvent *>(event);
-		if (keyEvent != NULL && mKeyMappings.contains(keyEvent->key()))
-		{
-			int newKey = mKeyMappings[keyEvent->key()];
-			*keyEvent = QKeyEvent(QEvent::KeyPress, newKey, Qt::NoModifier);
-		}
-	}
-	return QApplication::notify(receiver, event);
+//	mKeyMappings[Qt::Key_Up] = Qt::Key_Left;
+//	mKeyMappings[Qt::Key_Right] = Qt::Key_Up;
+//	mKeyMappings[Qt::Key_Down] = Qt::Key_Right;
+//	mKeyMappings[Qt::Key_Left] = Qt::Key_Down;
 }

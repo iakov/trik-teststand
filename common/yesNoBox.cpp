@@ -21,10 +21,9 @@ YesNoBox::YesNoBox(QString const &question)
 	, yesLabel(tr("Да"))
 	, noLabel(tr("Нет"))
 {
-	setWindowState(Qt::WindowFullScreen);
 
 	questionLabel.setAlignment(Qt::AlignCenter);
-	noLabel.setAlignment(Qt::AlignBottom | Qt::AlignRight);
+	noLabel.setAlignment(Qt::AlignBottom | Qt::AlignLeft);
 	yesLabel.setAlignment(Qt::AlignBottom | Qt::AlignRight);
 
 	answersLayout.addWidget(&noLabel);
@@ -37,6 +36,7 @@ YesNoBox::YesNoBox(QString const &question)
 void YesNoBox::setQuestion(QString const &question)
 {
 	questionLabel.setText(question);
+	setWindowState(Qt::WindowFullScreen);
 }
 
 YesNoBox::Answer YesNoBox::exec()

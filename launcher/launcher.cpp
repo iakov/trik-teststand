@@ -209,5 +209,5 @@ void Launcher::setTestState(QString const &name, Launcher::TestState state)
 
 	TrikTestApplication::processEvents();
 	mTable.repaint();
-	TrikTestApplication::activeWindow()->repaint();
+	//TrikTestApplication::activeWindow()->repaint();
 }

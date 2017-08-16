@@ -18,8 +18,8 @@
 
 TestInterface::Result SoundTest::run(trikControl::BrickInterface &brick, QStringList &)
 {
-	brick.playSound("test.wav");
-	YesNoBox yesNoBox(tr("Услышали ли вы звук?"));
+	brick.playTone(500,500);
+	YesNoBox yesNoBox(tr("Был слышен звук?"));
 	if (yesNoBox.exec() == YesNoBox::yes)
 	{
 		return TestInterface::success;

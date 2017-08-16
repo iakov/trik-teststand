@@ -17,26 +17,10 @@
 #include <QtCore/QDebug>
 #include <trikControl/pwmCaptureInterface.h>
 
-#include "pwmGenerator.h"
 #include "messageBox.h"
 
 TestInterface::Result PwmTest::run(trikControl::BrickInterface &brick, QStringList &log)
 {
-	mGeneratorFiles["JE1"].requestFilePath = "/sys/class/pwm/ehrpwm.1:1/request";
-	mGeneratorFiles["JE1"].runFilePath = "/sys/class/pwm/ehrpwm.1:1/run";
-	mGeneratorFiles["JE1"].frequencyFilePath = "/sys/class/pwm/ehrpwm.1:1/period_freq";
-	mGeneratorFiles["JE1"].dutyFilePath = "/sys/class/pwm/ehrpwm.1:1/duty_percent";
-
-	mGeneratorFiles["JE2"].requestFilePath = "/sys/class/pwm/ehrpwm.1:0/request";
-	mGeneratorFiles["JE2"].runFilePath = "/sys/class/pwm/ehrpwm.1:0/run";
-	mGeneratorFiles["JE2"].frequencyFilePath = "/sys/class/pwm/ehrpwm.1:0/period_freq";
-	mGeneratorFiles["JE2"].dutyFilePath = "/sys/class/pwm/ehrpwm.1:0/duty_percent";
-
-	mGeneratorFiles["JE3"].requestFilePath = "/sys/class/pwm/ehrpwm.0:1/request";
-	mGeneratorFiles["JE3"].runFilePath = "/sys/class/pwm/ehrpwm.0:1/run";
-	mGeneratorFiles["JE3"].frequencyFilePath = "/sys/class/pwm/ehrpwm.0:1/period_freq";
-	mGeneratorFiles["JE3"].dutyFilePath = "/sys/class/pwm/ehrpwm.0:1/duty_percent";
-
 	mBrick = &brick;
 	mLog = &log;
 
@@ -56,8 +40,8 @@ TestInterface::Result PwmTest::run(trikControl::BrickInterface &brick, QStringLi
 
 void PwmTest::performStage(Configurer::Stage const &stage)
 {
-	GeneratorFiles generatorFiles = mGeneratorFiles[stage.generatorPort];
-	if (generatorFiles.requestFilePath.isEmpty())
+	auto g = mBrick->motor(stage.generatorPort);
+	if (!g)
 	{
 		mLog->append(tr("Невозможно получить доступ к ") + stage.generatorPort);
 		mLog->append(QString());
@@ -66,10 +50,9 @@ void PwmTest::performStage(Configurer::Stage const &stage)
 		return;
 	}
 
-	PwmGenerator generator(generatorFiles);
 
-	trikControl::PwmCaptureInterface *capture = mBrick->pwmCapture(stage.capturePort);
-	if (capture == NULL)
+	auto c = mBrick->pwmCapture(stage.capturePort);
+	if (!c)
 	{
 		mLog->append(tr("Невозможно получить доступ к ") + stage.capturePort);
 		mLog->append(QString());
@@ -90,15 +73,15 @@ void PwmTest::performStage(Configurer::Stage const &stage)
 		int outputFrequency = value.frequency;
 		int outputDuty = value.duty;
 
-		generator.setFrequency(outputFrequency);
-		generator.setDuty(outputDuty);
+		g->setPeriod(1000000.0 / outputFrequency);
+		g->setPower(outputDuty, false);
 
 		mLog->append(tr("На выходе:"));
 		mLog->append(tr("частота ") + QString::number(outputFrequency) + tr("Гц"));
 		mLog->append(tr("ширина импульса ") + QString::number(outputDuty) + tr("%"));
 
-		QVector<int> inputFrequency = capture->frequency();
-		int inputDuty = capture->duty();
+		QVector<int> inputFrequency = c->frequency();
+		int inputDuty = c->duty();
 		mLog->append(tr("На входе:"));
 		mLog->append(tr("частота (") + QString::number(inputFrequency[0]) + ","
 				+ QString::number(inputFrequency[1]) + "," + QString::number(inputFrequency[2]) + tr(")Гц "));

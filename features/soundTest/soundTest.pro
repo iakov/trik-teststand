@@ -11,9 +11,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-include(../plugin.pri)
-
 TARGET = $$qtLibraryTarget(soundTest)
+include(../plugin.pri)
+QT += multimedia
 
 DEFINES += SOUNDTEST_LIBRARY
 
@@ -22,5 +22,3 @@ SOURCES += \
 
 HEADERS += \
 		soundTest.h
-
-QMAKE_POST_LINK = "cp -f test.wav $$DESTDIR"

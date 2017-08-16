@@ -1,8 +1,8 @@
 <pwmTest>
 	<stages>
-		<stage generatorPort="JE1" capturePort="JC1"/>
-		<stage generatorPort="JE2" capturePort="JC2"/>
-		<stage generatorPort="JE3" capturePort="JC3"/>
+		<stage generatorPort="S4" capturePort="S1"/>
+		<stage generatorPort="S5" capturePort="S2"/>
+		<stage generatorPort="S6" capturePort="S3"/>
 	</stages>
 
 	<values>

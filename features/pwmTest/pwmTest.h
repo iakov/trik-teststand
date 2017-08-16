@@ -27,13 +27,6 @@ class PwmTest
 public:
 	TestInterface::Result run(trikControl::BrickInterface &mBrick, QStringList &mLog);
 
-	struct GeneratorFiles {
-		QString requestFilePath;
-		QString runFilePath;
-		QString frequencyFilePath;
-		QString dutyFilePath;
-	};
-
 private:
 	trikControl::BrickInterface *mBrick;
 	QStringList *mLog;
@@ -41,8 +34,6 @@ private:
 
 	QList<Configurer::Value> mValues;
 	TestInterface::Result result;
-
-	QHash<QString, GeneratorFiles> mGeneratorFiles;
 
 	void performStage(Configurer::Stage const &stage);
 };

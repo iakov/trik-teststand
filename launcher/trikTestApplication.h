@@ -23,8 +23,4 @@ class TrikTestApplication : public QApplication
 
 public:
 	TrikTestApplication(int argc, char **argv);
-	bool notify(QObject *receiver, QEvent *event);
-
-private:
-	QMap<int, int> mKeyMappings;
 };
