@@ -18,10 +18,6 @@ QT += core gui xml network widgets
 
 TARGET = trikTest
 
-LIBS += -ltrikControl \
-	-L$$DESTDIR \
-	-ltrikTestCommon
-
 SOURCES += \
 	main.cpp \
 	trikTestApplication.cpp \

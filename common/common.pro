@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include(../global.pri)
 
 TARGET = trikTestCommon
+include(../global.pri)
 TEMPLATE = lib
 
 LIBS += -lusb-1.0

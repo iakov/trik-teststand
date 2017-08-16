@@ -8,9 +8,12 @@ CONFIG(debug, debug | release) {
 	CONFIGURATION = release
 }
 
+QMAKE_CXXFLAGS += -Wall -Wextra
+
 DESTDIR=$$PWD/build/$$CONFIGURATION
 
 OBJECTS_DIR = .build/$$CONFIGURATION/obj
 MOC_DIR = .build/$$CONFIGURATION/moc
 
-
+LIBS += -ltrikTestCommon -L$$DESTDIR -ltrikControl
+LIBS -= -l$$TARGET

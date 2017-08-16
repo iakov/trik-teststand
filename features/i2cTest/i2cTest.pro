@@ -12,10 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include(../plugin.pri)
 TARGET = $$qtLibraryTarget(i2cTest)
+include(../plugin.pri)
 
 DEFINES += I2CTEST_LIBRARY
+QT += xml
 
 SOURCES += \
 	i2cTest.cpp \
