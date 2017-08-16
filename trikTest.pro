@@ -20,4 +20,4 @@ SUBDIRS = \
 	launcher 
 
 features.depends += common
-launcher.depends += common features
+launcher.depends += common

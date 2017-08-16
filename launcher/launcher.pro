@@ -11,28 +11,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+include(../global.pri)
 TEMPLATE = app
 
 QT += core gui xml network widgets
 
-CONFIG(debug, debug | release) {
-	CONFIGURATION = debug
-} else {
-	CONFIGURATION = release
-}
-
 TARGET = trikTest
 
-DESTDIR = ../build/$$CONFIGURATION
-
-OBJECTS_DIR = .build/$$CONFIGURATION/obj
-MOC_DIR = .build/$$CONFIGURATION/moc
-
-INCLUDEPATH += ../common $$[QT_INSTALL_HEADERS]/../trikRuntime
-
 LIBS += -ltrikControl \
-	-L../build/$$CONFIGURATION \
+	-L$$DESTDIR \
 	-ltrikTestCommon
 
 SOURCES += \

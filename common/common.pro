@@ -12,23 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-QT += core gui widgets
+include(../global.pri)
 
 TARGET = trikTestCommon
 TEMPLATE = lib
 
 LIBS += -lusb-1.0
-
-CONFIG(debug, debug | release) {
-	CONFIGURATION = debug
-} else {
-	CONFIGURATION = release
-}
-
-DESTDIR = ../build/$$CONFIGURATION
-
-OBJECTS_DIR = .build/$$CONFIGURATION/obj
-MOC_DIR = .build/$$CONFIGURATION/moc
 
 DEFINES += TRIKTESTCOMMON_LIBRARY
 
