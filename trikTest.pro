@@ -14,26 +14,10 @@
 
 TEMPLATE = subdirs
 
-CONFIG += ordered
-
-INCLUDE_DIR += $PWD/../runtime/trikControl/include/
-
 SUBDIRS = \
 	common \
-	launcher \
-	accelerometerTest \
-	buttonsTest \
-	gyroscopeTest \
-	i2cTest \
-	interfaceTest \
-	ledTest \
-	pwmTest \
-	soundTest \
-	usbConnectTest \
-	usbTest \
-	gpioJFTest \
-    gpioJDTest \
-    mspTest \
-    jvp1Test \
-    jvp2Test \
-    spiFlash
+	features \
+	launcher 
+
+features.depends += common
+launcher.depends += common features

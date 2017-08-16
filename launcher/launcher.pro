@@ -18,13 +18,11 @@ QT += core gui xml network widgets
 
 CONFIG(debug, debug | release) {
 	CONFIGURATION = debug
-	CONFIGURATION_SUFFIX = d
 } else {
 	CONFIGURATION = release
-	CONFIGURATION_SUFFIX =
 }
 
-TARGET = trikTest$$CONFIGURATION_SUFFIX
+TARGET = trikTest
 
 DESTDIR = ../build/$$CONFIGURATION
 
