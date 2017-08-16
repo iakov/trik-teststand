@@ -6,6 +6,7 @@ linkHere () {
 
 modprobe -rv jcx_pwm
 modprobe -v jcx_ecap_pwm
+cat /sys/class/pwm/ecap_cap.*/config
 
 linkHere system-config.xml
 linkHere model-config.xml

@@ -21,3 +21,5 @@ SUBDIRS = \
 
 features.depends += common
 launcher.depends += common
+
+OTHER_FILES = runme.sh
