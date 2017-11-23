@@ -69,11 +69,13 @@ void ButtonsTest::keyPressEvent(QKeyEvent *event)
 void ButtonsTest::timeout()
 {
 	mLog->append(tr("Не были нажаты кнопки:"));
-	foreach (const int button, mAllButtons)
+	for (int button : mAllButtons)
 	{
-		if (!mPressedButtons.contains(button))
+		if (!mPressedButtons.contains(button)) {
 			mLog->append(mButtonsNames[button]);
+		}
 	}
+
 	mResult = fail;
 	mEventLoop.quit();
 }

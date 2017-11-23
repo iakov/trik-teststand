@@ -21,13 +21,12 @@ Configurer::Configurer()
 		: config("usbTest")
 {
 	QFile file("usbTest.xml");
-	if (!file.open(QIODevice::ReadOnly))
-	{
+	if (!file.open(QIODevice::ReadOnly)) {
 		qDebug() << "Failed to open usbTest.xml for reading";
 		throw "Failed to open usbTest.xml for reading";
 	}
-	if (!config.setContent(&file))
-	{
+
+	if (!config.setContent(&file)) {
 		file.close();
 		qDebug() << "usbTest.xml parsing failed";
 		throw "usbTest.xml parsing failed";

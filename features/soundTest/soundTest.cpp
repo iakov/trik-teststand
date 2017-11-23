@@ -14,18 +14,16 @@
 
 #include "soundTest.h"
 
+#include <QtCore/QEventLoop>
+
 #include "yesNoBox.h"
 
 TestInterface::Result SoundTest::run(trikControl::BrickInterface &brick, QStringList &)
 {
-	brick.playTone(500,500);
+	brick.playTone(500, 2500);
+	QEventLoop loop;
+	QTimer::singleShot(2500, [&loop](){ loop.exit(0); });
+	loop.exec();
 	YesNoBox yesNoBox(tr("Был слышен звук?"));
-	if (yesNoBox.exec() == YesNoBox::yes)
-	{
-		return TestInterface::success;
-	}
-	else
-	{
-		return TestInterface::fail;
-	}
+	return yesNoBox.exec() == YesNoBox::yes? TestInterface::success : TestInterface::fail;
 }

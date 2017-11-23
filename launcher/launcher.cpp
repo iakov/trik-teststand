@@ -18,11 +18,12 @@
 #include <QtCore/QList>
 #include <QtCore/QDebug>
 
+#include <trikControl/brickFactory.h>
+
 #include "testInterface.h"
 #include "trikTestApplication.h"
 #include "logPrinter.h"
 #include "messageBox.h"
-#include <trikControl/brickFactory.h>
 
 using namespace trikControl;
 
@@ -73,10 +74,11 @@ void Launcher::startTesting()
 	messageBox.exec();
 
 	setState(inProcess);
-	foreach (QString const &test, mTests)
+	for (QString const &test : mTests)
 	{
 		performTest(test);
 	}
+
 	setState(finished);
 }
 

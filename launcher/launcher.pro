@@ -34,4 +34,4 @@ HEADERS  += \
 OTHER_FILES += \
 	trikTest.xml
 
-QMAKE_POST_LINK = "cp -f trikTest.xml $$DESTDIR"
+QMAKE_POST_LINK += "cp -t $$DESTDIR -f trikTest.xml ../runme.sh"

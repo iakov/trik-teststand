@@ -30,17 +30,14 @@ TestInterface::Result UsbTest::run(trikControl::BrickInterface &, QStringList &l
 	usbCommunicator.scan();
 	QList<UsbCommunicator::Device> foundDevices = usbCommunicator.devices();
 
-	foreach (UsbCommunicator::Device const &device, foundDevices)
-	{
+	for (UsbCommunicator::Device const &device: foundDevices) {
 		logDevice(device, true);
 	}
 
 	TestInterface::Result result = TestInterface::success;
 
-	foreach (UsbCommunicator::Device const &device, mAllDevices)
-	{
-		if (!foundDevices.contains(device))
-		{
+	for (UsbCommunicator::Device const &device: mAllDevices) {
+		if (!foundDevices.contains(device)) {
 			result = TestInterface::fail;
 			logDevice(device, false);
 		}
@@ -51,19 +48,22 @@ TestInterface::Result UsbTest::run(trikControl::BrickInterface &, QStringList &l
 
 void UsbTest::logDevice(const UsbCommunicator::Device &device, bool found)
 {
-	if (found)
+	if (found) {
 		mLog->append(tr("Найдено устройство:"));
-	else
+	} else {
 		mLog->append(tr("Не найдено устройство:"));
+	}
 
 	mLog->append("Vendor ID: " + QString::number(device.vendor, 16).rightJustified(4, '0'));
 	mLog->append("Product ID: " + QString::number(device.product, 16).rightJustified(4, '0'));
 
-	if (mVendorNames.contains(device.vendor))
+	if (mVendorNames.contains(device.vendor)) {
 		mLog->append(mVendorNames[device.vendor]);
+	}
 
-	if (mProductNames.contains(device.product))
+	if (mProductNames.contains(device.product)) {
 		mLog->append(mProductNames[device.product]);
+	}
 
 	mLog->append(QString());
 }
