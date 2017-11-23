@@ -23,6 +23,7 @@ class LedTest
 	Q_OBJECT
 	Q_INTERFACES(TestInterface)
 	Q_PLUGIN_METADATA(IID "com.trikset.teststand.led")
+
 public:
 	TestInterface::Result run(trikControl::BrickInterface &brick, QStringList &log);
 };

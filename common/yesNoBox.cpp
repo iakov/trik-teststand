@@ -15,6 +15,7 @@
 #include "yesNoBox.h"
 
 #include <QtGui/QKeyEvent>
+#include <QtCore/QtDebug>
 
 YesNoBox::YesNoBox(QString const &question)
 	: questionLabel(question)
@@ -53,6 +54,7 @@ YesNoBox::Answer YesNoBox::exec()
 
 void YesNoBox::keyPressEvent(QKeyEvent *event)
 {
+	qDebug() << Q_FUNC_INFO << event->key();
 	switch (event->key())
 	{
 		case Qt::Key_Return:

@@ -14,29 +14,34 @@
 
 #include "buttonsTest.h"
 
+#include <QtCore/QtDebug>
+
 //using namespace trikTest;
+
+void ButtonsTest::init()
+{
+	mDelay = 15;
+	mAllButtons << 16777399 << 16777216 << 16777236 << 16777220 <<
+			16777237 << 16777234 << 16777235;
+
+	mButtonsNames[16777399] = "PowerDown";
+	mButtonsNames[16777216] = "Menu";
+	mButtonsNames[16777220] = "Enter";
+	mButtonsNames[16777236] = "Left";
+	mButtonsNames[16777234] = "Right";
+	mButtonsNames[16777235] = "Up";
+	mButtonsNames[16777237] = "Down";
+}
 
 TestInterface::Result ButtonsTest::run(trikControl::BrickInterface &, QStringList &log)
 {
+	init();
 	mLog = &log;
-	mDelay = 10;
+	const auto message = tr("Тестирование кнопок. Нажмите по очереди все кнопки в течение ")
+			+ QString::number(mDelay) + tr(" секунд");
 
-	setWindowState(Qt::WindowFullScreen);
-
-	mAllButtons << Qt::Key_PowerDown /* << Qt::Key_Meta */ << Qt::Key_Return << Qt::Key_Left <<
-			Qt::Key_Right << Qt::Key_Up << Qt::Key_Down;
-
-	mButtonsNames[Qt::Key_PowerDown] = "PowerDown (F1)";
-	mButtonsNames[Qt::Key_Meta] = "Menu (F2)";
-	mButtonsNames[Qt::Key_Return] = "Enter (F6)";
-	mButtonsNames[Qt::Key_Left] = "Left (F3)";
-	mButtonsNames[Qt::Key_Right] = "Right (F7)";
-	mButtonsNames[Qt::Key_Up] = "Up (F5)";
-	mButtonsNames[Qt::Key_Down] = "Down (F4)";
-
-	mTopLabel.setText(tr("Тестирование кнопок\n"
-			"Нажмите по очереди все кнопки\n"
-			"в течение ") + QString::number(mDelay) + tr(" секунд"));
+	qDebug() << Q_FUNC_INFO << message;
+	mTopLabel.setText(message);
 	mTopLabel.setAlignment(Qt::AlignCenter);
 	mBottomLabel.setAlignment(Qt::AlignCenter);
 	mLayout.addWidget(&mTopLabel);
@@ -48,6 +53,7 @@ TestInterface::Result ButtonsTest::run(trikControl::BrickInterface &, QStringLis
 	connect(&mTimer, SIGNAL(timeout()), this, SLOT(timeout()));
 
 	mResult = fail;
+	show();
 	mTimer.start();
 	mEventLoop.exec();
 	return mResult;
@@ -56,11 +62,13 @@ TestInterface::Result ButtonsTest::run(trikControl::BrickInterface &, QStringLis
 void ButtonsTest::keyPressEvent(QKeyEvent *event)
 {
 	mPressedButtons.insert(event->key());
-	mBottomLabel.setText(tr("Нажата кнопка ") + mButtonsNames.value(event->key()));
-	if (mPressedButtons.contains(mAllButtons))
-	{
-		mTimer.stop();
+	const auto message = tr("Нажата кнопка ") + mButtonsNames.value(event->key());
+	qDebug() << Q_FUNC_INFO << event->key() << message;
+	mBottomLabel.setText(message);
+
+	if (mPressedButtons.contains(mAllButtons)) {
 		disconnect(&mTimer, SIGNAL(timeout()));
+		mTimer.stop();
 		mResult = success;
 		mEventLoop.quit();
 	}
@@ -68,11 +76,14 @@ void ButtonsTest::keyPressEvent(QKeyEvent *event)
 
 void ButtonsTest::timeout()
 {
-	mLog->append(tr("Не были нажаты кнопки:"));
+	const auto message = tr("Не были нажаты кнопки:");
+	mLog->append(message);
+	qDebug() << Q_FUNC_INFO << message;
 	for (int button : mAllButtons)
 	{
 		if (!mPressedButtons.contains(button)) {
 			mLog->append(mButtonsNames[button]);
+			qDebug() << mButtonsNames[button];
 		}
 	}
 

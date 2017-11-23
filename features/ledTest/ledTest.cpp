@@ -21,32 +21,30 @@
 TestInterface::Result LedTest::run(trikControl::BrickInterface &brick, QStringList &log)
 {
 	TestInterface::Result result = success;
-
 	YesNoBox yesNoBox;
 
+	brick.led()->off();
 	brick.led()->green();
 	yesNoBox.setQuestion(tr("Светодиод сейчас зелёный?"));
-	if (yesNoBox.exec() == YesNoBox::no)
-	{
+	if (yesNoBox.exec() == YesNoBox::no) {
 		result = fail;
 		log.append(tr("Не работает зелёный свет"));
 	}
 
 	brick.led()->orange();
 	yesNoBox.setQuestion(tr("Светодиод сейчас оранжевый?"));
-	if (yesNoBox.exec() == YesNoBox::no)
-	{
+	if (yesNoBox.exec() == YesNoBox::no) {
 		result = fail;
 		log.append(tr("Не работает оранжевый свет"));
 	}
 
 	brick.led()->red();
 	yesNoBox.setQuestion(tr("Светодиод сейчас красный?"));
-	if (yesNoBox.exec() == YesNoBox::no)
-	{
+	if (yesNoBox.exec() == YesNoBox::no) {
 		result = fail;
 		log.append(tr("Не работает красный свет"));
 	}
 
+	brick.led()->off();
 	return result;
 }

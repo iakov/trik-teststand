@@ -3,13 +3,11 @@
 #include "messageBox.h"
 
 MessageBox::MessageBox(QString const &message)
-	: QMessageBox(QMessageBox::NoIcon, "", message, QMessageBox::NoButton)
+	: QMessageBox(QMessageBox::NoIcon
+		, tr("Информация перед стартом")
+		, message, QMessageBox::NoButton)
 {
 	setWindowState(Qt::WindowFullScreen);
 	setWindowModality(Qt::WindowModal);
-
-//	auto btnOk = new QPushButton(OK");
-//	btnOk->setAlignment(Qt::AlignRight | Qt::AlignBottom);
-	addButton("OK (press Enter -> ->)", QMessageBox::AcceptRole);
-
+	addButton("OK", QMessageBox::AcceptRole);
 }

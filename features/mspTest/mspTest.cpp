@@ -29,6 +29,7 @@
 
 static int const delay = 500;
 static int const maxDifference = 100;
+static int const power = 100;
 #define wait msleep
 
 
@@ -37,6 +38,7 @@ TestInterface::Result MspTest::run(trikControl::BrickInterface &brick, QStringLi
 	mBrick = &brick;
 	mLog = &log;
 
+	log.append(tr("Запуск теста моторов"));
 
 //	if (loadFirmware() == TestInterface::fail) {
 //		return TestInterface::fail;
@@ -95,12 +97,14 @@ TestInterface::Result MspTest::testCase(QString const &motorPort, QString const 
 {
 	qDebug() << Q_FUNC_INFO << motorPort << encoderPort;
 	auto motor = mBrick->motor(motorPort);
+	qDebug() << Q_FUNC_INFO << motor;
 	if (!motor) {
 		mLog->append(tr("Не удалось получить доступ к мотору на порту ") + motorPort);
 		return TestInterface::fail;
 	}
 
 	auto encoder = mBrick->encoder(encoderPort);
+	qDebug() << Q_FUNC_INFO << encoder;
 	if (!encoder) {
 		mLog->append(tr("Не удалось получить доступ к датчику угла поворота на порту ") + encoderPort);
 		return TestInterface::fail;
@@ -109,25 +113,21 @@ TestInterface::Result MspTest::testCase(QString const &motorPort, QString const 
 	qDebug() << Q_FUNC_INFO << "encoder and motor -exists";
 
 	encoder->reset();
-	motor->setPower(100);
-	mLog->append(tr("Подана мощность +100% на мотор ") + motorPort);
-	qDebug() << Q_FUNC_INFO << tr("Подана мощность +100% на мотор ") + motorPort;
+	mLog->append(tr("Подана мощность +%1% на мотор ").arg(power) + motorPort);
+	motor->setPower(power);
 	wait(delay);
 	motor->powerOff();
 	float const angle1 = encoder->read();
 	mLog->append(tr("Считан угол ") + QString::number(angle1) + tr(" рад с ") + encoderPort);
-	qDebug() << Q_FUNC_INFO << tr("Считан угол ") + QString::number(angle1) + tr(" рад с ") + encoderPort;
 
 	encoder->reset();
-	motor->setPower(-100);
-	mLog->append(tr("Подана мощность -100% на мотор ") + motorPort);
-	qDebug() << Q_FUNC_INFO << tr("Подана мощность -100% на мотор ") + motorPort;
+	mLog->append(tr("Подана мощность -%1% на мотор ").arg(power) + motorPort);
+	motor->setPower(-power);
 	wait(delay);
 	motor->powerOff();
 	float const angle2 = encoder->read();
 	mLog->append(tr("Считан угол ") + QString::number(angle2) + tr(" рад с ") + encoderPort);
-	qDebug() << Q_FUNC_INFO << tr("Считан угол ") + QString::number(angle2) + tr(" рад с ") + encoderPort;
-	mLog->append(tr("fabs(angle1 + angle2) = ")+ QString::number(fabs(angle1 + angle2) ));
+	mLog->append(tr("fabs(angle1 + angle2) = ") + QString::number(fabs(angle1 + angle2) ));
 
 	if (((angle1 < 0 && angle2 > 0) || (angle1 > 0 && angle2 < 0))
 			&& fabs(fabs(angle1) - fabs(angle2)) < maxDifference)
