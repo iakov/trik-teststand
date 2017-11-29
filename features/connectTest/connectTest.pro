@@ -46,4 +46,4 @@ OTHER_FILES += \
 	connectTest.xml
 
 
-QMAKE_POST_LINK = "cp -f connectTest.xml $$DESTDIR"
+QMAKE_POST_LINK = "cp -f $$PWD/connectTest.xml $$DESTDIR"

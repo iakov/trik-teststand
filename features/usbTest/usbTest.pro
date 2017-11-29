@@ -29,4 +29,4 @@ HEADERS += \
 OTHER_FILES += \
 	usbTest.xml
 
-QMAKE_POST_LINK = "cp -f usbTest.xml $$DESTDIR"
+QMAKE_POST_LINK = "cp -f $$PWD/usbTest.xml $$DESTDIR"
