@@ -15,57 +15,45 @@
 #include "accelerometerTest.h"
 
 #include <QtCore/QString>
-#include <QtCore/QVector>
+#include <QtCore/QSet>
+#include <QtCore/QtDebug>
+#include <QtCore/QThread>
 
 #include "messageBox.h"
 #include "yesNoBox.h"
 
+const int READINGS = 50;
+const int UNIQUE_READINGS = 5;
+
 TestInterface::Result AccelerometerTest::run(trikControl::BrickInterface &brick, QStringList &log)
 {
-	mAccelerometer = brick.accelerometer();
-	mLog = &log;
+	trikControl::VectorSensorInterface *localAccelerometer = brick.accelerometer();
 
-	setWindowState(Qt::WindowFullScreen);
+	QSet<int> first;
+	QSet<int> second;
+	QSet<int> third;
 
-	mLayout.addWidget(&mTitleLabel);
-	mLayout.addWidget(&mReadingsList);
-	setLayout(&mLayout);
+	for (int i = 0; i < READINGS; ++i) {
+		QVector<int> localRead = localAccelerometer->read();
 
-	mTitleLabel.setText(tr("Показания акселерометра"));
-	mTitleLabel.setAlignment(Qt::AlignTop | Qt::AlignLeft);
+		first.insert(localRead[0]);
+		second.insert(localRead[1]);
+		third.insert(localRead[2]);
+		qDebug() << Q_FUNC_INFO << localRead;
+		QThread::msleep(100);
+	}
 
-	int const duration = 5;
-
-	MessageBox messageBox(tr("Буду считываться показания акселерометра\n"
-		"в течение ") + QString::number(duration) + tr(" секунд"));
-	messageBox.exec();
-
-	mDurationTimer.setInterval(duration * 1000);
-	mDurationTimer.setSingleShot(true);
-	connect(&mDurationTimer, SIGNAL(timeout()), &mEventLoop, SLOT(quit()));
-	mDurationTimer.start();
-
-	mTickTimer.setInterval(100);
-	mTickTimer.setSingleShot(false);
-	connect(&mTickTimer, SIGNAL(timeout()), SLOT(printReading()));
-	mTickTimer.start();
-
-	mEventLoop.exec();
-
-	YesNoBox yesNoBox(tr("Исправен ли акселерометр?"));
-	if (yesNoBox.exec() == YesNoBox::yes)
+	if (first.size() > UNIQUE_READINGS
+			&& second.size() > UNIQUE_READINGS
+			&& third.size() > UNIQUE_READINGS) {
 		return success;
-	else
-		return fail;
-}
+	}
 
-void AccelerometerTest::printReading()
-{
-	QVector<int> const reading = mAccelerometer->read();
-	QString const readingString = "(" + QString::number(reading[0])
-			+ ", " + QString::number(reading[1])
-			+ ", " + QString::number(reading[2]) + ")";
-	mReadingsList.addItem(readingString);
-	mReadingsList.setCurrentRow(mReadingsList.count() - 1);
-	mLog->append(readingString);
+	log.append(tr("После %0 считываний, акселерометр выдал слишком мало уникальных значений: %1, %2, %3")
+			.arg(READINGS)
+			.arg(first.size())
+			.arg(second.size())
+			.arg(third.size()));
+
+	return fail;
 }

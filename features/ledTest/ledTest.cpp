@@ -22,29 +22,24 @@ TestInterface::Result LedTest::run(trikControl::BrickInterface &brick, QStringLi
 {
 	TestInterface::Result result = success;
 	YesNoBox yesNoBox;
-
 	brick.led()->off();
-	brick.led()->green();
-	yesNoBox.setQuestion(tr("Светодиод сейчас зелёный?"));
+
+	auto localTimer = new QTimer();
+	localTimer->setInterval(300);
+	connect(localTimer, &QTimer::timeout, [&brick](){
+		brick.led()->green();
+		QTimer::singleShot(100, [&brick](){brick.led()->orange();});
+		QTimer::singleShot(200, [&brick](){brick.led()->red();});
+	});
+
+	localTimer->start();
+	yesNoBox.setQuestion(tr("Светодиод моргает?"));
 	if (yesNoBox.exec() == YesNoBox::no) {
 		result = fail;
-		log.append(tr("Не работает зелёный свет"));
+		log.append(tr("Не работает светодиод"));
 	}
 
-	brick.led()->orange();
-	yesNoBox.setQuestion(tr("Светодиод сейчас оранжевый?"));
-	if (yesNoBox.exec() == YesNoBox::no) {
-		result = fail;
-		log.append(tr("Не работает оранжевый свет"));
-	}
-
-	brick.led()->red();
-	yesNoBox.setQuestion(tr("Светодиод сейчас красный?"));
-	if (yesNoBox.exec() == YesNoBox::no) {
-		result = fail;
-		log.append(tr("Не работает красный свет"));
-	}
-
+	localTimer->stop();
 	brick.led()->off();
 	return result;
 }

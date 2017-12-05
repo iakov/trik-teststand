@@ -22,7 +22,7 @@ TestInterface::Result SoundTest::run(trikControl::BrickInterface &brick, QString
 {
 	brick.playTone(500, 2500);
 	QEventLoop loop;
-	QTimer::singleShot(2500, [&loop](){ loop.exit(0); });
+	QTimer::singleShot(3000, [&loop](){ loop.quit(); });
 	loop.exec();
 	YesNoBox yesNoBox(tr("Был слышен звук?"));
 	return yesNoBox.exec() == YesNoBox::yes? TestInterface::success : TestInterface::fail;

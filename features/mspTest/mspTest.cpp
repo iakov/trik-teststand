@@ -15,6 +15,7 @@
 #include "mspTest.h"
 
 #include <QtCore/QtDebug>
+#include <QtCore/QThread>
 
 #include <stdlib.h>
 #include <errno.h>
@@ -25,12 +26,9 @@
 #include "i2cCommunicator.h"
 #include "usbCommunicator.h"
 
-//#define FIRMWARE_PATH " /etc/msp-v6-latest.txt"
-
 static int const delay = 500;
 static int const maxDifference = 100;
 static int const power = 100;
-#define wait msleep
 
 
 TestInterface::Result MspTest::run(trikControl::BrickInterface &brick, QStringList &log)
@@ -39,10 +37,6 @@ TestInterface::Result MspTest::run(trikControl::BrickInterface &brick, QStringLi
 	mLog = &log;
 
 	log.append(tr("Запуск теста моторов"));
-
-//	if (loadFirmware() == TestInterface::fail) {
-//		return TestInterface::fail;
-//	}
 
 	if (testCase("M1", "E1") == TestInterface::fail) {
 		return TestInterface::fail;
@@ -61,36 +55,6 @@ TestInterface::Result MspTest::run(trikControl::BrickInterface &brick, QStringLi
 	}
 
 	return TestInterface::success;
-}
-
-TestInterface::Result MspTest::loadFirmware()
-{
-	return TestInterface::success;
-
-//	system("mspflasher -o " FIRMWARE_PATH);
-//	mLog->append(tr("Произведена прошивка MSP430"));
-
-//	UsbCommunicator usbCommunicator;
-//	usbCommunicator.scan();
-//	QList<UsbCommunicator::Device> usbDevices = usbCommunicator.devices();
-
-//	UsbCommunicator::Device mspUsbDevice;
-//	mspUsbDevice.vendor = 0x2047;
-//	mspUsbDevice.product = 0x0200;
-
-//	if (usbDevices.contains(mspUsbDevice)) {
-//		mLog->append(tr("MSP430 определяется как USB-устройство - прошивка прошла неверно"));
-//		return TestInterface::fail;
-//	}
-
-//	QMap<int, QString> busFiles;
-//	busFiles[2] = "/dev/i2c-2";
-//	I2cCommunicator i2cCommunicator(busFiles);
-
-//	if (!i2cCommunicator.isOnboard(2, 0x48)) {
-//		mLog->append(tr("MSP430 не определяется как I2C-устройство - ошибка"));
-//		return TestInterface::fail;
-//	}
 }
 
 TestInterface::Result MspTest::testCase(QString const &motorPort, QString const &encoderPort)
@@ -115,23 +79,12 @@ TestInterface::Result MspTest::testCase(QString const &motorPort, QString const 
 	encoder->reset();
 	mLog->append(tr("Подана мощность +%1% на мотор ").arg(power) + motorPort);
 	motor->setPower(power);
-	wait(delay);
+	QThread::msleep(delay);
 	motor->powerOff();
 	float const angle1 = encoder->read();
 	mLog->append(tr("Считан угол ") + QString::number(angle1) + tr(" рад с ") + encoderPort);
 
-	encoder->reset();
-	mLog->append(tr("Подана мощность -%1% на мотор ").arg(power) + motorPort);
-	motor->setPower(-power);
-	wait(delay);
-	motor->powerOff();
-	float const angle2 = encoder->read();
-	mLog->append(tr("Считан угол ") + QString::number(angle2) + tr(" рад с ") + encoderPort);
-	mLog->append(tr("fabs(angle1 + angle2) = ") + QString::number(fabs(angle1 + angle2) ));
-
-	if (((angle1 < 0 && angle2 > 0) || (angle1 > 0 && angle2 < 0))
-			&& fabs(fabs(angle1) - fabs(angle2)) < maxDifference)
-	{
+	if (fabs(angle1) > maxDifference) {
 		return TestInterface::success;
 	}
 

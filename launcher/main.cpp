@@ -26,8 +26,9 @@ int main(int argc, char *argv[])
 	QFont newFont(a.font());
 	newFont.setPixelSize(12);
 	a.setFont(newFont);
-
-	//QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
+	a.setStyleSheet("QTableView::item:selected:active { background: white; color:black; border: 2px solid black }"
+		"QMessageBox { background: white; color:black ; border: 2px solid black }"
+		"QPushButton { background: white; color:black ; border: 2px solid black }");
 
 	Launcher launcher;
 	launcher.show();

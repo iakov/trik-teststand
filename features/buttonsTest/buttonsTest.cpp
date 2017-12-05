@@ -20,7 +20,7 @@
 
 void ButtonsTest::init()
 {
-	mDelay = 15;
+	mDelay = 25;
 	mAllButtons << 16777399 << 16777216 << 16777236 << 16777220 <<
 			16777237 << 16777234 << 16777235;
 
@@ -37,10 +37,9 @@ TestInterface::Result ButtonsTest::run(trikControl::BrickInterface &, QStringLis
 {
 	init();
 	mLog = &log;
-	const auto message = tr("Тестирование кнопок. Нажмите по очереди все кнопки в течение ")
-			+ QString::number(mDelay) + tr(" секунд");
+	const auto message = tr("Тестирование кнопок.\n Нажмите по очереди все кнопки\nв течение %0 секунд")
+			.arg(mDelay);
 
-	qDebug() << Q_FUNC_INFO << message;
 	mTopLabel.setText(message);
 	mTopLabel.setAlignment(Qt::AlignCenter);
 	mBottomLabel.setAlignment(Qt::AlignCenter);
@@ -48,14 +47,16 @@ TestInterface::Result ButtonsTest::run(trikControl::BrickInterface &, QStringLis
 	mLayout.addWidget(&mBottomLabel);
 	setLayout(&mLayout);
 
+	show();
 	mTimer.setInterval(mDelay * 1000);
 	mTimer.setSingleShot(true);
-	connect(&mTimer, SIGNAL(timeout()), this, SLOT(timeout()));
+	connect(&mTimer, &QTimer::timeout, this, &ButtonsTest::timeout);
 
 	mResult = fail;
-	show();
 	mTimer.start();
+	qDebug() << Q_FUNC_INFO << __LINE__;
 	mEventLoop.exec();
+	deleteLater();
 	return mResult;
 }
 

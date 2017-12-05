@@ -16,7 +16,7 @@
 
 #include "testInterface.h"
 
-class jvp1Test
+class jvpTest
 		: public QObject
 		, public TestInterface
 {
@@ -28,7 +28,7 @@ public:
 	TestInterface::Result run(trikControl::BrickInterface &brick, QStringList &log);
 
 private:
-	TestInterface::Result captureVideo();
+	TestInterface::Result captureVideo(trikControl::BrickInterface &brick, int number);
 
 	QStringList *mLog;
 	TestInterface::Result mResult;

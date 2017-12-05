@@ -17,6 +17,8 @@
 #include <QtCore/QPluginLoader>
 #include <QtCore/QList>
 #include <QtCore/QDebug>
+#include <QtCore/QThread>
+#include <QtCore/QDateTime>
 
 #include <trikControl/brickFactory.h>
 
@@ -38,8 +40,8 @@ Launcher::Launcher()
 	setWindowState(Qt::WindowFullScreen);
 	mTable.setHorizontalHeaderLabels({tr("Тест"), tr("Статус")});
 
-	mTable.setColumnWidth(0, 110);
-	mTable.setColumnWidth(1, 98);
+	mTable.setColumnWidth(0, 90);
+	mTable.setColumnWidth(1, 90);
 
 	mTopButtonsLabels[0].setAlignment(Qt::AlignTop | Qt::AlignLeft);
 	mTopButtonsLabels[1].setAlignment(Qt::AlignTop | Qt::AlignHCenter);
@@ -51,8 +53,7 @@ Launcher::Launcher()
 	mTopButtonsLabels[1].setText(tr("Вверх"));
 	mBottomButtonsLabels[1].setText(tr("Вниз"));
 
-	for (int i = 0; i < 3; ++i)
-	{
+	for (int i = 0; i < 3; ++i)	{
 		mTopLayout.addWidget(&mTopButtonsLabels[i]);
 		mBottomLayout.addWidget(&mBottomButtonsLabels[i]);
 	}
@@ -121,11 +122,12 @@ void Launcher::keyPressEvent(QKeyEvent *event)
 					qDebug() << Q_FUNC_INFO << "file writing";
 					const auto path = "/home/root/tests.log";
 					QFile file(path);
-					if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+					if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append)) {
 						return;
 					}
 
 					QTextStream out(&file);
+					out << tr("\n Журнал тестирования \n") << QDateTime::currentDateTime().toString() << endl;
 					for (const QString &key : mLogs.keys()) {
 						for (const QString &raw : mLogs[key]) {
 							out << raw << "\n";
@@ -135,6 +137,10 @@ void Launcher::keyPressEvent(QKeyEvent *event)
 					system(qPrintable("sync"));
 					qDebug() << Q_FUNC_INFO << "sync";
 					file.close();
+
+					MessageBox messageBox(tr("Журнал записан на SD карту"));
+					messageBox.exec();
+
 					break;
 				}
 				default:
@@ -151,6 +157,7 @@ void Launcher::keyPressEvent(QKeyEvent *event)
 void Launcher::performTest(QString const &name)
 {
 	setTestState(name, testInProcess);
+	QThread::msleep(100);
 
 	mLogs[name].clear();
 
@@ -158,19 +165,20 @@ void Launcher::performTest(QString const &name)
 
 	if (!testLoader.instance()) {
 		setTestState(name, testFail);
-		qDebug() << "Cannot load the test: " << testLoader.errorString();
 		mLogs[name].append(tr("Не удалось подключить тест"));
 		mLogs[name].append(testLoader.errorString());
 	} else {
 		TestInterface *test = qobject_cast<TestInterface *>(testLoader.instance());
 		if (!test) {
 			setTestState(name, testFail);
-			qDebug() << "Cannot perform type casting";
 			mLogs[name].append(tr("Не удалось подключить тест"));
 			mLogs[name].append(tr("Ошибка приведения типов"));
 		} else {
+			QThread::msleep(100);
 			TestInterface::Result result = test->run(*mBrick, mLogs[name]);
+			QThread::msleep(100);
 			setTestState(name, (result == TestInterface::success) ? testSuccess : testFail);
+			QThread::msleep(100);
 		}
 	}
 
@@ -235,5 +243,7 @@ void Launcher::setTestState(QString const &name, Launcher::TestState state)
 
 	TrikTestApplication::processEvents();
 	mTable.repaint();
-	//TrikTestApplication::activeWindow()->repaint();
+	if (auto activeWindow = TrikTestApplication::activeWindow()) {
+		activeWindow->repaint();
+	}
 }
