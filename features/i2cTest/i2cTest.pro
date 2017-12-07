@@ -29,4 +29,4 @@ HEADERS += \
 OTHER_FILES += \
 	i2cTest.xml
 
-QMAKE_POST_LINK = "cp -f i2cTest.xml $$DESTDIR"
+QMAKE_POST_LINK = "cp -f $$PWD/i2cTest.xml $$DESTDIR"

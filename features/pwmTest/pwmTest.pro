@@ -27,4 +27,4 @@ HEADERS += \
 OTHER_FILES += \
 	pwmTest.xml
 
-QMAKE_POST_LINK = "cp -f pwmTest.xml $$DESTDIR"
+QMAKE_POST_LINK = "cp -f $$PWD/pwmTest.xml $$DESTDIR"
