@@ -21,16 +21,16 @@
 void ButtonsTest::init()
 {
 	mDelay = 25;
-	mAllButtons << 16777399 << 16777216 << 16777236 << 16777220 <<
-			16777237 << 16777234 << 16777235;
+	mAllButtons << Qt::Key_Return << Qt::Key_Left << Qt::Key_Right << Qt::Key_Up <<
+			Qt::Key_Down << Qt::Key_PowerOff << Qt::Key_Escape;
 
-	mButtonsNames[16777399] = "PowerDown";
-	mButtonsNames[16777216] = "Menu";
-	mButtonsNames[16777220] = "Enter";
-	mButtonsNames[16777236] = "Left";
-	mButtonsNames[16777234] = "Right";
-	mButtonsNames[16777235] = "Up";
-	mButtonsNames[16777237] = "Down";
+	mButtonsNames[Qt::Key_PowerOff] = "PowerDown";
+	mButtonsNames[Qt::Key_Escape] = "Menu";
+	mButtonsNames[Qt::Key_Return] = "Enter";
+	mButtonsNames[Qt::Key_Left] = "Left";
+	mButtonsNames[Qt::Key_Right] = "Right";
+	mButtonsNames[Qt::Key_Up] = "Up";
+	mButtonsNames[Qt::Key_Down] = "Down";
 }
 
 TestInterface::Result ButtonsTest::run(trikControl::BrickInterface &, QStringList &log)
@@ -64,7 +64,7 @@ void ButtonsTest::keyPressEvent(QKeyEvent *event)
 {
 	mPressedButtons.insert(event->key());
 	const auto message = tr("Нажата кнопка ") + mButtonsNames.value(event->key());
-	qDebug() << Q_FUNC_INFO << event->key() << message;
+	qDebug() << Q_FUNC_INFO << QKeySequence(event->key()).toString() << message;
 	mBottomLabel.setText(message);
 
 	if (mPressedButtons.contains(mAllButtons)) {

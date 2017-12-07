@@ -15,7 +15,6 @@
 #include "ledTest.h"
 
 #include <trikControl/ledInterface.h>
-
 #include "yesNoBox.h"
 
 TestInterface::Result LedTest::run(trikControl::BrickInterface &brick, QStringList &log)
@@ -24,22 +23,22 @@ TestInterface::Result LedTest::run(trikControl::BrickInterface &brick, QStringLi
 	YesNoBox yesNoBox;
 	brick.led()->off();
 
-	auto localTimer = new QTimer();
-	localTimer->setInterval(300);
-	connect(localTimer, &QTimer::timeout, [&brick](){
+	QTimer localTimer;
+	localTimer.setInterval(1200);
+	connect(&localTimer, &QTimer::timeout, [&brick](){
 		brick.led()->green();
-		QTimer::singleShot(100, [&brick](){brick.led()->orange();});
-		QTimer::singleShot(200, [&brick](){brick.led()->red();});
+		QTimer::singleShot(400, [&brick](){brick.led()->off();});
+		QTimer::singleShot(800, [&brick](){brick.led()->red();});
 	});
 
-	localTimer->start();
-	yesNoBox.setQuestion(tr("Светодиод моргает?"));
+	localTimer.start();
+	yesNoBox.setQuestion(tr("Светодиод мигает?"));
 	if (yesNoBox.exec() == YesNoBox::no) {
 		result = fail;
 		log.append(tr("Не работает светодиод"));
 	}
 
-	localTimer->stop();
-	brick.led()->off();
+	localTimer.stop();
+	QThread::msleep(1200);
 	return result;
 }

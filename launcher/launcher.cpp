@@ -117,7 +117,7 @@ void Launcher::keyPressEvent(QKeyEvent *event)
 					setState(finished);
 					break;
 				}
-				case 16777399:
+				case Qt::Key_Escape:
 				{
 					qDebug() << Q_FUNC_INFO << "file writing";
 					const auto path = "/home/root/tests.log";
