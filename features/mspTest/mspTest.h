@@ -16,9 +16,7 @@
 
 #include "testInterface.h"
 
-class MspTest
-		: public QThread // for msleep
-		, public TestInterface
+class MspTest : public QObject, public TestInterface
 {
 	Q_OBJECT
 	Q_INTERFACES(TestInterface)
@@ -28,10 +26,8 @@ public:
 	TestInterface::Result run(trikControl::BrickInterface &brick, QStringList &log);
 
 private:
-	TestInterface::Result loadFirmware();
 	TestInterface::Result testCase(QString const &motorPort, QString const &encoderPort);
 
 	trikControl::BrickInterface *mBrick;
 	QStringList *mLog;
-	TestInterface::Result mResult;
 };

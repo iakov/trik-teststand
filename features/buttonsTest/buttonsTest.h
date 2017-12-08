@@ -31,10 +31,16 @@ class ButtonsTest
 	Q_OBJECT
 	Q_INTERFACES(TestInterface)
 	Q_PLUGIN_METADATA(IID "com.trikset.teststand.buttons")
+
 public:
 	TestInterface::Result run(trikControl::BrickInterface &, QStringList &log);
 
+protected:
+	void keyPressEvent(QKeyEvent *event);
+
 private:
+	void init();
+
 	QLabel mTopLabel;
 	QLabel mBottomLabel;
 	QVBoxLayout mLayout;
@@ -47,9 +53,6 @@ private:
 	QTimer mTimer;
 	QEventLoop mEventLoop;
 	Result mResult;
-
-protected:
-	void keyPressEvent(QKeyEvent *event);
 
 private slots:
 	void timeout();

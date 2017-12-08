@@ -1,18 +1,20 @@
 <trikTest>
 	<tests>
-		<test name="Buttons Test" file="libbuttonsTest.so" />
-		<test name="LED Test" file="libledTest.so" />
-		<test name="PWM Test" file="libpwmTest.so" />
-		<test name="Sound Test" file="libsoundTest.so" />
-		<test name="Accelerometer Test" file="libaccelerometerTest.so" />
-		<test name="Gyroscope Test" file="libgyroscopeTest.so" />
-		<test name="USB Test" file="libusbTest.so" />
-		<test name="USB Connect Test" file="libusbConnectTest.so" />
-		<test name="Interface Test" file="libinterfaceTest.so" />
-		<test name="Connect Test" file="libconnectTest.so" />
-		<test name="I2C Test" file="libi2cTest.so" />
-		<test name="GPIO JF Test" file="libgpioJFTest.so" />
-		<test name="GPIO JD Test" file="libgpioJDTest.so" />
-		<test name="MSP Test" file="libmspTest.so" />
+		<test name="LED" file="libledTest.so" />
+		<test name="Buttons" file="libbuttonsTest.so" />
+		<test name="Sound" file="libsoundTest.so" />
+		<test name="Accelerometer" file="libaccelerometerTest.so" />
+		<test name="Gyroscope" file="libgyroscopeTest.so" />
+		<test name="MSP" file="libmspTest.so" />
+		<test name="USB" file="libusbTest.so" />
+		<test name="I2C" file="libi2cTest.so" />
+		<test name="USB Connect" file="libusbConnectTest.so" />
+		<test name="Interface" file="libinterfaceTest.so" />
+		<test name="JVP" file="libjvpTest.so" />
+
+<!--		<test name="GPIO JF" file="libgpioJFTest.so" />  to do: -->
+<!--		<test name="GPIO JD" file="libgpioJDTest.so" />   empty -->
+<!--		<test name="Connect" file="libconnectTest.so" />-->
+<!--		<test name="PWM" file="libpwmTest.so" />-->
 	</tests>
 </trikTest>

@@ -1,5 +1,7 @@
 #include "logPrinter.h"
 
+#include <QtCore/QtDebug>
+
 LogPrinter::LogPrinter(QStringList const &log)
 	: okLabel("OK")
 {
@@ -26,7 +28,8 @@ void LogPrinter::exec()
 	hide();
 }
 
-void LogPrinter::keyPressEvent(QKeyEvent *)
+void LogPrinter::keyPressEvent(QKeyEvent *event)
 {
+	qDebug() << Q_FUNC_INFO << event->key();
 	mEventLoop.quit();
 }

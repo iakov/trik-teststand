@@ -14,10 +14,10 @@
 
 include(../plugin.pri)
 
-TARGET = $$qtLibraryTarget(jvp2Test)
+TARGET = $$qtLibraryTarget(jvpTest)
 
-DEFINES += JVP2TEST_LIBRARY
+DEFINES += JVPTEST_LIBRARY
 
-SOURCES += jvp2Test.cpp
+SOURCES += jvpTest.cpp
 
-HEADERS += jvp2Test.h
+HEADERS += jvpTest.h

@@ -15,57 +15,58 @@
 #include "gyroscopeTest.h"
 
 #include <QtCore/QString>
-#include <QtCore/QVector>
+#include <QtCore/QSet>
+#include <QtCore/QtDebug>
 
-#include "messageBox.h"
-#include "yesNoBox.h"
+const int READINGS = 50;
+const int GYROSCOPE_VECTOR_SIZE = 3;
+const int UNIQUE_READINGS = 5;
+
 
 TestInterface::Result GyroscopeTest::run(trikControl::BrickInterface &brick, QStringList &log)
 {
+	mReadNumber = 0;
+	mReadings.resize(GYROSCOPE_VECTOR_SIZE);
 	mGyroscope = brick.gyroscope();
-	mLog = &log;
 
-	setWindowState(Qt::WindowFullScreen);
+	mTimer.setSingleShot(true);
+	connect(&mTimer, &QTimer::timeout, this, &GyroscopeTest::handleTimeOut);
+	mTimer.start(2500);
 
-	mLayout.addWidget(&mTitleLabel);
-	mLayout.addWidget(&mReadingsList);
-	setLayout(&mLayout);
+	connect(mGyroscope, &trikControl::GyroSensorInterface::newData, this, &GyroscopeTest::handleNewData);
 
-	mTitleLabel.setText(tr("Показания гироскопа"));
-	mTitleLabel.setAlignment(Qt::AlignTop | Qt::AlignLeft);
+	mLoop.exec();
 
-	int const duration = 5;
-
-	MessageBox messageBox(tr("Буду считываться показания гироскопа\n"
-		"в течение ") + QString::number(duration) + tr(" секунд"));
-	messageBox.exec();
-
-	mDurationTimer.setInterval(duration * 1000);
-	mDurationTimer.setSingleShot(true);
-	connect(&mDurationTimer, SIGNAL(timeout()), &mEventLoop, SLOT(quit()));
-	mDurationTimer.start();
-
-	mTickTimer.setInterval(100);
-	mTickTimer.setSingleShot(false);
-	connect(&mTickTimer, SIGNAL(timeout()), SLOT(printReading()));
-	mTickTimer.start();
-
-	mEventLoop.exec();
-
-	YesNoBox yesNoBox(tr("Исправен ли гироскоп?"));
-	if (yesNoBox.exec() == YesNoBox::yes)
+	if (std::all_of(mReadings.begin(), mReadings.end()
+			, [](const QSet<int> &set){return set.size() > UNIQUE_READINGS;})) {
 		return success;
-	else
-		return fail;
+	}
+
+	log.append(tr("После %0 считываний, гироскоп выдал слишком мало уникальных значений")
+			.arg(READINGS));
+
+	return fail;
 }
 
-void GyroscopeTest::printReading()
+void GyroscopeTest::handleNewData(QVector<int> data)
 {
-	QVector<int> const reading = mGyroscope->read();
-	QString const readingString = "(" + QString::number(reading[0])
-			+ ", " + QString::number(reading[1])
-			+ ", " + QString::number(reading[2]) + ")";
-	mReadingsList.addItem(readingString);
-	mReadingsList.setCurrentRow(mReadingsList.count() - 1);
-	mLog->append(readingString);
+	++mReadNumber;
+	if (mReadNumber > READINGS) {
+		disconnect(&mTimer, &QTimer::timeout, this, &GyroscopeTest::handleTimeOut);
+		disconnect(mGyroscope, &trikControl::GyroSensorInterface::newData, this, &GyroscopeTest::handleNewData);
+		mLoop.quit();
+	}
+
+	qDebug() << Q_FUNC_INFO << data;
+
+	for (int j = 0; j < GYROSCOPE_VECTOR_SIZE; ++j) {
+		mReadings[j].insert(data[j]);
+	}
+}
+
+void GyroscopeTest::handleTimeOut()
+{
+	qDebug() << Q_FUNC_INFO << "exit from Timer";
+	disconnect(mGyroscope, &trikControl::GyroSensorInterface::newData, this, &GyroscopeTest::handleNewData);
+	mLoop.quit();
 }

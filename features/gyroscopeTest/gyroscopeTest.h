@@ -33,14 +33,12 @@ private:
 	trikControl::GyroSensorInterface *mGyroscope;
 	QStringList *mLog;
 
-	QVBoxLayout mLayout;
-	QLabel mTitleLabel;
-	QListWidget mReadingsList;
-
-	QEventLoop mEventLoop;
-	QTimer mDurationTimer;
-	QTimer mTickTimer;
+	int mReadNumber;
+	QVector<QSet<int>> mReadings;
+	QEventLoop mLoop;
+	QTimer mTimer;
 
 private slots:
-	void printReading();
+	void handleNewData(QVector<int> data);
+	void handleTimeOut();
 };

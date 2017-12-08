@@ -4,17 +4,17 @@ SUBDIRS = \
 	accelerometerTest \
 	buttonsTest \
 	gyroscopeTest \
-	i2cTest \
-	interfaceTest \
 	ledTest \
-	pwmTest \
 	soundTest \
-	usbConnectTest \
+	mspTest \
+	i2cTest \
 	usbTest \
-	gpioJFTest \
-    gpioJDTest \
-    mspTest \
-    jvp1Test \
-    jvp2Test \
-    spiFlash
+	usbConnectTest \
+	interfaceTest \
+	jvpTest \
+#	gpioJFTest \
+#	gpioJDTest \
+#	connectTest \ # wlan connect (trikstar ??)
+#	pwmTest \
+#	spiFlash
 

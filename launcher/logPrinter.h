@@ -14,7 +14,7 @@ public:
 	void exec();
 
 protected:
-	void keyPressEvent(QKeyEvent *);
+	void keyPressEvent(QKeyEvent *event);
 
 private:
 	QEventLoop mEventLoop;

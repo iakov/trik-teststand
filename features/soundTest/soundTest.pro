@@ -18,7 +18,7 @@ QT += multimedia
 DEFINES += SOUNDTEST_LIBRARY
 
 SOURCES += \
-		soundTest.cpp
+	soundTest.cpp
 
 HEADERS += \
-		soundTest.h
+	soundTest.h

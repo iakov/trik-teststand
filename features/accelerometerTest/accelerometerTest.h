@@ -29,19 +29,4 @@ class AccelerometerTest : public QWidget, public TestInterface
 
 public:
 	TestInterface::Result run(trikControl::BrickInterface &brick, QStringList &log);
-
-private:
-	trikControl::VectorSensorInterface *mAccelerometer;
-	QStringList *mLog;
-
-	QVBoxLayout mLayout;
-	QLabel mTitleLabel;
-	QListWidget mReadingsList;
-
-	QEventLoop mEventLoop;
-	QTimer mDurationTimer;
-	QTimer mTickTimer;
-
-private slots:
-	void printReading();
 };

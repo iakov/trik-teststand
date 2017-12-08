@@ -7,10 +7,10 @@
 	<products>
 		<product id="0x0001" name="1.1 root hub" />
 		<product id="0x0002" name="2.0 root hub" />
-		<product id="0x0200" name="MSP430 USB HID Bootstrap Loader" />
+<!--		<product id="0x0200" name="MSP430 USB HID Bootstrap Loader" />-->
 	</products>
 
-	<devices>
+<!--	<devices>
 		<device vendor="0x2047" product="0x0200" />
-	</devices>
+	</devices>-->
 </usbTest>

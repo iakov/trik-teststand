@@ -17,12 +17,17 @@
 #include <QtCore/QPluginLoader>
 #include <QtCore/QList>
 #include <QtCore/QDebug>
+#include <QtCore/QThread>
+#include <QtCore/QDateTime>
+
+#include <trikControl/brickFactory.h>
 
 #include "testInterface.h"
 #include "trikTestApplication.h"
 #include "logPrinter.h"
 #include "messageBox.h"
-#include <trikControl/brickFactory.h>
+
+#include <QtCore/QtDebug>
 
 using namespace trikControl;
 
@@ -33,9 +38,10 @@ Launcher::Launcher()
 	, mState(finished)
 {
 	setWindowState(Qt::WindowFullScreen);
+	mTable.setHorizontalHeaderLabels({tr("Тест"), tr("Статус")});
 
-	mTable.setColumnWidth(0, 150);
-	mTable.setColumnWidth(1, 100);
+	mTable.setColumnWidth(0, 90);
+	mTable.setColumnWidth(1, 90);
 
 	mTopButtonsLabels[0].setAlignment(Qt::AlignTop | Qt::AlignLeft);
 	mTopButtonsLabels[1].setAlignment(Qt::AlignTop | Qt::AlignHCenter);
@@ -47,8 +53,7 @@ Launcher::Launcher()
 	mTopButtonsLabels[1].setText(tr("Вверх"));
 	mBottomButtonsLabels[1].setText(tr("Вниз"));
 
-	for (int i = 0; i < 3; ++i)
-	{
+	for (int i = 0; i < 3; ++i)	{
 		mTopLayout.addWidget(&mTopButtonsLabels[i]);
 		mBottomLayout.addWidget(&mBottomButtonsLabels[i]);
 	}
@@ -69,19 +74,25 @@ Launcher::Launcher()
 
 void Launcher::startTesting()
 {
-	MessageBox messageBox(tr("Тестирование контроллера ТРИК"));
+	MessageBox messageBox(tr("Тестирование контроллера ТРИК:\n")
+		+ tr("Нажмите Верх/Вниз, чтобы выбрать тест\n")
+		+ tr("Нажмите Влево, чтобы повторить тест\n")
+		+ tr("Нажмите Ок, чтобы просмотреть ошибки в тесте\n")
+		+ tr("Нажмите Выключение питания, чтобы записать журнал по всем тестам на диск\n"));
+
 	messageBox.exec();
 
 	setState(inProcess);
-	foreach (QString const &test, mTests)
-	{
+	for (QString const &test : mTests) {
 		performTest(test);
 	}
+
 	setState(finished);
 }
 
 void Launcher::keyPressEvent(QKeyEvent *event)
 {
+	qDebug() << Q_FUNC_INFO << event->key();
 	switch (mState)
 	{
 		case inProcess:
@@ -106,6 +117,32 @@ void Launcher::keyPressEvent(QKeyEvent *event)
 					setState(finished);
 					break;
 				}
+				case Qt::Key_Escape:
+				{
+					qDebug() << Q_FUNC_INFO << "file writing";
+					const auto path = "/home/root/tests.log";
+					QFile file(path);
+					if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append)) {
+						return;
+					}
+
+					QTextStream out(&file);
+					out << tr("\n Журнал тестирования \n") << QDateTime::currentDateTime().toString() << endl;
+					for (const QString &key : mLogs.keys()) {
+						for (const QString &raw : mLogs[key]) {
+							out << raw << "\n";
+						}
+					}
+
+					system(qPrintable("sync"));
+					qDebug() << Q_FUNC_INFO << "sync";
+					file.close();
+
+					MessageBox messageBox(tr("Журнал записан на SD карту"));
+					messageBox.exec();
+
+					break;
+				}
 				default:
 				{
 					QWidget::keyPressEvent(event);
@@ -120,32 +157,28 @@ void Launcher::keyPressEvent(QKeyEvent *event)
 void Launcher::performTest(QString const &name)
 {
 	setTestState(name, testInProcess);
+	QThread::msleep(100);
 
 	mLogs[name].clear();
 
 	QPluginLoader testLoader(mFiles[name]);
 
-	if (testLoader.instance() == NULL)
-	{
+	if (!testLoader.instance()) {
 		setTestState(name, testFail);
-		qDebug() << "Cannot load the test: " << testLoader.errorString();
 		mLogs[name].append(tr("Не удалось подключить тест"));
 		mLogs[name].append(testLoader.errorString());
-	}
-	else
-	{
+	} else {
 		TestInterface *test = qobject_cast<TestInterface *>(testLoader.instance());
-		if (test == NULL)
-		{
+		if (!test) {
 			setTestState(name, testFail);
-			qDebug() << "Cannot perform type casting";
 			mLogs[name].append(tr("Не удалось подключить тест"));
 			mLogs[name].append(tr("Ошибка приведения типов"));
-		}
-		else
-		{
+		} else {
+			QThread::msleep(100);
 			TestInterface::Result result = test->run(*mBrick, mLogs[name]);
+			QThread::msleep(100);
 			setTestState(name, (result == TestInterface::success) ? testSuccess : testFail);
+			QThread::msleep(100);
 		}
 	}
 
@@ -155,8 +188,7 @@ void Launcher::performTest(QString const &name)
 void Launcher::setState(Launcher::State state)
 {
 	mState = state;
-	switch (state)
-	{
+	switch (state) {
 		case inProcess:
 		{
 			mBottomButtonsLabels[0].setText(QString());
@@ -168,7 +200,10 @@ void Launcher::setState(Launcher::State state)
 			mTopButtonsLabels[0].setText(tr("Повторить"));
 			mBottomButtonsLabels[2].setText(tr("Журнал"));
 			mTable.repaint();
-			TrikTestApplication::activeWindow()->repaint();
+			if (auto activeWindow = TrikTestApplication::activeWindow()) {
+				activeWindow->repaint();
+			}
+
 			break;
 		}
 	}
@@ -176,8 +211,7 @@ void Launcher::setState(Launcher::State state)
 
 void Launcher::setTestState(QString const &name, Launcher::TestState state)
 {
-	if (!mRows.contains(name))
-	{
+	if (!mRows.contains(name)) {
 		int row = mTable.rowCount();
 		mRows[name] = row;
 		mTable.insertRow(row);
@@ -192,22 +226,24 @@ void Launcher::setTestState(QString const &name, Launcher::TestState state)
 	{
 		case testInProcess:
 		{
-			mTable.item(mRows[name], 1)->setText("IN PROCESS");
+			mTable.item(mRows[name], 1)->setText("...");
 			break;
 		}
 		case testSuccess:
 		{
-			mTable.item(mRows[name], 1)->setText("OK");
+			mTable.item(mRows[name], 1)->setText("PASSED");
 			break;
 		}
 		case testFail:
 		{
-			mTable.item(mRows[name], 1)->setText("FAIL");
+			mTable.item(mRows[name], 1)->setText("FAILED");
 			break;
 		}
 	}
 
 	TrikTestApplication::processEvents();
 	mTable.repaint();
-	//TrikTestApplication::activeWindow()->repaint();
+	if (auto activeWindow = TrikTestApplication::activeWindow()) {
+		activeWindow->repaint();
+	}
 }

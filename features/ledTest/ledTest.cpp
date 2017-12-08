@@ -15,38 +15,30 @@
 #include "ledTest.h"
 
 #include <trikControl/ledInterface.h>
-
 #include "yesNoBox.h"
 
 TestInterface::Result LedTest::run(trikControl::BrickInterface &brick, QStringList &log)
 {
 	TestInterface::Result result = success;
-
 	YesNoBox yesNoBox;
+	brick.led()->off();
 
-	brick.led()->green();
-	yesNoBox.setQuestion(tr("Светодиод сейчас зелёный?"));
-	if (yesNoBox.exec() == YesNoBox::no)
-	{
+	QTimer localTimer;
+	localTimer.setInterval(1200);
+	connect(&localTimer, &QTimer::timeout, [&brick](){
+		brick.led()->green();
+		QTimer::singleShot(400, [&brick](){brick.led()->off();});
+		QTimer::singleShot(800, [&brick](){brick.led()->red();});
+	});
+
+	localTimer.start();
+	yesNoBox.setQuestion(tr("Светодиод мигает?"));
+	if (yesNoBox.exec() == YesNoBox::no) {
 		result = fail;
-		log.append(tr("Не работает зелёный свет"));
+		log.append(tr("Не работает светодиод"));
 	}
 
-	brick.led()->orange();
-	yesNoBox.setQuestion(tr("Светодиод сейчас оранжевый?"));
-	if (yesNoBox.exec() == YesNoBox::no)
-	{
-		result = fail;
-		log.append(tr("Не работает оранжевый свет"));
-	}
-
-	brick.led()->red();
-	yesNoBox.setQuestion(tr("Светодиод сейчас красный?"));
-	if (yesNoBox.exec() == YesNoBox::no)
-	{
-		result = fail;
-		log.append(tr("Не работает красный свет"));
-	}
-
+	localTimer.stop();
+	QThread::msleep(1200);
 	return result;
 }

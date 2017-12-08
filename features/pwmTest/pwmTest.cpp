@@ -30,8 +30,7 @@ TestInterface::Result PwmTest::run(trikControl::BrickInterface &brick, QStringLi
 
 	result = TestInterface::success;
 
-	foreach (Configurer::Stage const &stage, mStages)
-	{
+	for (Configurer::Stage const &stage: mStages) {
 		performStage(stage);
 	}
 
@@ -41,8 +40,7 @@ TestInterface::Result PwmTest::run(trikControl::BrickInterface &brick, QStringLi
 void PwmTest::performStage(Configurer::Stage const &stage)
 {
 	auto g = mBrick->motor(stage.generatorPort);
-	if (!g)
-	{
+	if (!g) {
 		mLog->append(tr("Невозможно получить доступ к ") + stage.generatorPort);
 		mLog->append(QString());
 		qDebug() << "Cannot access to " + stage.generatorPort;
@@ -52,8 +50,7 @@ void PwmTest::performStage(Configurer::Stage const &stage)
 
 
 	auto c = mBrick->pwmCapture(stage.capturePort);
-	if (!c)
-	{
+	if (!c) {
 		mLog->append(tr("Невозможно получить доступ к ") + stage.capturePort);
 		mLog->append(QString());
 		qDebug() << "Cannot access to " + stage.capturePort;
@@ -68,8 +65,7 @@ void PwmTest::performStage(Configurer::Stage const &stage)
 	mLog->append(tr("Считываем с ") + stage.capturePort);
 	mLog->append(QString());
 
-	foreach (Configurer::Value const &value, mValues)
-	{
+	for (Configurer::Value const &value : mValues) {
 		int outputFrequency = value.frequency;
 		int outputDuty = value.duty;
 
